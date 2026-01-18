@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message NormalizedLandmarkPoint {
+    optional float x = 1;
+    optional float y = 2;
+    optional float z = 3;
+}
+
+message NormalizedLandmarkPointsList {
+    repeated NormalizedLandmarkPoint points = 1;
+}

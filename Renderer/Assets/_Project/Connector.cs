@@ -48,7 +48,7 @@ public class Connector : MonoBehaviour
 
     private async void ReadMessages(CancellationToken token)
     {
-        byte[] buffer = new byte[sizeof(double)];
+        byte[] buffer = new byte[sizeof(int)];
         while (true)
         {
             try
@@ -75,7 +75,7 @@ public class Connector : MonoBehaviour
                 return;
             }
 
-            double value = BitConverter.ToDouble(buffer);
+            double value = BitConverter.ToInt32(buffer);
             Debug.Log($"Reveived: {value}");
         }
     }

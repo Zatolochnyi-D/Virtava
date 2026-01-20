@@ -28,6 +28,9 @@ class Connection:
         self._on_close()
         print('Connection closed after client disconnected.')
 
+    def send(self, data):
+        self._socket.sendall(data)
+
     def set_on_close(self, on_close: Callable):
         self._on_close = on_close
 

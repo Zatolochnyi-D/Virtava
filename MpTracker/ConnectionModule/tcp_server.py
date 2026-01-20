@@ -30,6 +30,11 @@ class TcpServer:
         self._connections.close_all()
         print('TCP server stopped.')
 
+    def broadcast(self, number: int):
+        bts = number.to_bytes(4, 'little', signed = True)
+        for connection in self._connections:
+            connection.send(bts)
+
     def _accept_clients_continuously(self):
         while self.running:
             try:

@@ -28,3 +28,17 @@ class ConnectionsList:
             if connection is not None:
                 connection.close(False)
         self._connections = []
+
+    def __iter__(self):
+        return ConnectionsListIterator(self)
+
+class ConnectionsListIterator:
+    def __init__(self, list: ConnectionsList):
+        self._target = iter(list._connections)
+        pass
+
+    def __next__(self):
+        value = None
+        while value is None:
+            value = next(self._target)
+        return value

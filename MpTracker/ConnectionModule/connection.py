@@ -15,12 +15,18 @@ class Connection:
             while self._running:
                 data = self._socket.recv(1024)
                 if not data:
-                    print("client disconnected")
+                    print("Client disconnected.")
                     break
         except OSError:
             pass
-        if not self._running: # client disconnected
-            self.close()
+        if self._running: # client disconnected
+            self._handle_disconnect()
+
+    def _handle_disconnect(self):
+        self._running = False
+        self._socket.close()
+        self._on_close()
+        print('Connection closed after client disconnected.')
 
     def set_on_close(self, on_close: Callable):
         self._on_close = on_close

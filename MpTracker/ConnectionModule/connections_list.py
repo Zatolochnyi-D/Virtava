@@ -10,6 +10,7 @@ class ConnectionsList:
             if self._connections[i] is None:
                 self._connections[i] = connection
                 index = i
+                break
         else:
             self._connections.append(connection)
             index = len(self._connections) - 1
@@ -23,6 +24,7 @@ class ConnectionsList:
         self._remove_from_list(index)
 
     def close_all(self):
-        for connection in self._connections:
-            if connection is not None: connection.close(False)
+        for i, connection in enumerate(self._connections):
+            if connection is not None:
+                connection.close(False)
         self._connections = []

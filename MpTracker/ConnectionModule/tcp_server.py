@@ -1,7 +1,7 @@
 from socket import socket, AF_INET, SOCK_STREAM, timeout
 from threading import Thread
-from connections_list import ConnectionsList
-from connection import Connection
+from ConnectionModule.connections_list import ConnectionsList
+from ConnectionModule.connection import Connection
 
 class TcpServer:
     SOCKET_TIMEOUT = 1.0
@@ -35,7 +35,6 @@ class TcpServer:
             try:
                 connection, _ = self._socket.accept()
                 self._connections.add(Connection(connection))
-                print('Client connected.')
             except timeout:
                 continue
             except OSError:

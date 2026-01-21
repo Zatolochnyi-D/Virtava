@@ -3,6 +3,7 @@ from ConnectionModule.connection import Connection
 class ConnectionsList:
     def __init__(self):
         self._connections: list[Connection] = []
+        self.count = 0
 
     def add(self, connection: Connection):
         index = 0
@@ -14,9 +15,11 @@ class ConnectionsList:
         else:
             self._connections.append(connection)
             index = len(self._connections) - 1
+        self.count += 1
         self._connections[index].set_on_close(lambda: self._remove_from_list(index))
 
     def _remove_from_list(self, index: int):
+        self.count -= 1
         self._connections[index] = None
 
     def close(self, index: int):

@@ -29,7 +29,8 @@ class Connection:
         print('Connection closed after client disconnected.')
 
     def send(self, data):
-        self._socket.sendall(data)
+        self._socket.sendall(data) # Some "broken pipe" error (errno 32) may appear here
+        # the last time it happened on closing connection on client what crash happened.
 
     def set_on_close(self, on_close: Callable):
         self._on_close = on_close

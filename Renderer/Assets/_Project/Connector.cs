@@ -28,6 +28,12 @@ public class Connector : MonoBehaviour
             Debug.Log("Client connected.");
             _stream = _client.GetStream();
             _cancellation = new();
+            // var buffer = new byte[64];
+            // _stream.Read(buffer, 0, 64);
+            // foreach (var b in buffer)
+            // {
+            //     Debug.Log(b);
+            // }
             ReadMessages(_cancellation.Token);
         });
         _disconnect.onClick.AddListener(() =>
@@ -44,22 +50,40 @@ public class Connector : MonoBehaviour
 
     void OnDestroy()
     {
-        _cancellation?.Cancel();
-        _client?.Close();
+        // _cancellation?.Cancel();
+        // _client?.Close();
     }
 
     private async void ReadMessages(CancellationToken token)
     {
-        var lengthBytes = new byte[sizeof(int)];
+        var buffer = new byte[sizeof(int)];
         while (true)
         {
             try
             {
-                var lengthReadSuccessful = await _stream.ReadExactly(lengthBytes);
-                int messageLength = BitConverter.ToInt32(lengthBytes);
-                var messageBytes = new byte[messageLength];
-                var messageReadSuccessful = await _stream.ReadExactly(messageBytes);
-                var list = NormalizedLandmarkPointsList.Parser.ParseFrom(messageBytes);
+                var bytesRead = await _stream.ReadAsync(buffer, token);
+                if (bytesRead == 0)
+                {
+                    Debug.Log("Server disconnected");
+                    break;
+                }
+                Debug.Log($"Received {BitConverter.ToInt32(buffer)}");
+                // var lengthReadSuccessful = await _stream.ReadExactly(lengthBytes);
+                // if (!lengthReadSuccessful)
+                // {
+                //     Debug.Log("Read unsuccessful");
+                //     break;
+                // }
+                // int messageLength = BitConverter.ToInt32(lengthBytes);
+                // var messageBytes = new byte[messageLength];
+                // var messageReadSuccessful = await _stream.ReadExactly(messageBytes);
+                // if (!messageReadSuccessful)
+                // {
+                //     Debug.Log("Read unsuccessful");
+                //     break;
+                // }
+                // var list = NormalizedLandmarkPointsList.Parser.ParseFrom(messageBytes);
+
 
                 if (token.IsCancellationRequested)
                 {
@@ -67,7 +91,7 @@ public class Connector : MonoBehaviour
                     break;
                 }
 
-                _animator.Animate(list);
+                // _animator.Animate(list);
             }
             catch (SocketException)
             {

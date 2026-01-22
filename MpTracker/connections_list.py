@@ -1,4 +1,4 @@
-from ConnectionModule.connection import Connection
+from connection import Connection
 
 class ConnectionsList:
     def __init__(self):

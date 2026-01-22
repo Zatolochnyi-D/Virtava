@@ -7,8 +7,9 @@ from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
 from draw_landmarks import draw_landmarks_on_image
-from ConnectionModule.tcp_server import TcpServer
+from tcp_server import TcpServer
 from landmarks_pb2 import NormalizedLandmarkPoint, NormalizedLandmarkPointsList
+import asyncio
 
 class App:
     WINDOW_NAME = 'Tracker Capture'
@@ -18,6 +19,7 @@ class App:
         self._thread_locker: Event | None = None
 
         self._tcp_server = TcpServer(host, port)
+        sdff = asyncio.start_server()
 
         base_options = BaseOptions(model_asset_path = model_asset_path)
         options = FaceLandmarkerOptions(base_options = base_options,
@@ -30,6 +32,9 @@ class App:
         signal.signal(signal.SIGTERM, lambda x, y: self.stop())
 
         print('Tracker created.')
+
+    def handle_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
+        pass
 
     def start(self):
         print('Tracker started.')

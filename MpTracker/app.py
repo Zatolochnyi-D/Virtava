@@ -1,25 +1,22 @@
 import cv2
 import signal
-from threading import Event
-from time import sleep
+import asyncio
 from mediapipe import Image, ImageFormat
 from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
-from draw_landmarks import draw_landmarks_on_image
 from tcp_server import TcpServer
 from landmarks_pb2 import NormalizedLandmarkPoint, NormalizedLandmarkPointsList
-import asyncio
 
 class App:
-    WINDOW_NAME = 'Tracker Capture'
-
     def __init__(self, model_asset_path: str, host: str, port: int):
-        self._running = True
-        self._thread_locker: Event | None = None
-
         self._tcp_server = TcpServer(host, port)
-        sdff = asyncio.start_server()
+        self._tcp_server.on_first_client_connected.subscribe(self.start_capture)
+        self._tcp_server.on_last_client_disconnected.subscribe(self.stop_capture)
+
+        self._capturing_task: asyncio.Task | None = None
+        self._app_blocker = asyncio.Event()
+        self._is_capturing_running = False
 
         base_options = BaseOptions(model_asset_path = model_asset_path)
         options = FaceLandmarkerOptions(base_options = base_options,
@@ -27,71 +24,55 @@ class App:
                                         output_facial_transformation_matrixes = True,
                                         num_faces = 1)
         self._detector = FaceLandmarker.create_from_options(options)
-        
+
         signal.signal(signal.SIGINT, lambda x, y: self.stop())
         signal.signal(signal.SIGTERM, lambda x, y: self.stop())
-
         print('Tracker created.')
 
-    def handle_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
-        pass
+    async def start(self):
+        await self._tcp_server.start()
+        print('Application started.')
+        await self._app_blocker.wait()
 
-    def start(self):
-        print('Tracker started.')
-        self._tcp_server.start()
+    def start_capture(self):
+        self._capturing_task = asyncio.create_task(self.capture_loop())
+        self._is_capturing_running = True
 
+    def stop_capture(self):
+        if self._capturing_task is not None:
+            self._capturing_task.cancel()
+            self._capturing_task = None
+            self._is_capturing_running = False
+
+    async def capture_loop(self):
         camera = cv2.VideoCapture(0)
-
-        while camera.isOpened() and self._running:
+        while camera.isOpened() and self._is_capturing_running:
             success, image = camera.read()
-
             if not success:
                 print('Image read unsuccessful')
                 break
 
             mp_image = Image(image_format = ImageFormat.SRGB, data = image)
             detection_result = self._detector.detect(mp_image)
-            
-            for i in range(len(detection_result.face_landmarks)):
-                landmarkList = NormalizedLandmarkPointsList()
-                for landmark in detection_result.face_landmarks[i]:
-                    lm = NormalizedLandmarkPoint(x=landmark.x, y=landmark.y, z=landmark.z)
-                    landmarkList.points.append(lm)
-                self._tcp_server.broadcast(landmarkList.SerializeToString())
 
+            # There can be 0 faces detected. In such case no message will be sent. Actually no handling needed on client, in case of no detection
+            # the model with just freeze. Can add some timer on client so it can know that server is not sending anything and add custom handlers on
+            # no data, or send empty list message and handle it.
+            detected_faces_count = len(detection_result.face_landmarks)
+            if detected_faces_count:
+                for i in range(detected_faces_count):
+                    landmarkList = NormalizedLandmarkPointsList()
+                    for detected_landmark in detection_result.face_landmarks[i]:
+                        landmark = NormalizedLandmarkPoint(x=detected_landmark.x, y=detected_landmark.y, z=detected_landmark.z)
+                        landmarkList.points.append(landmark)
+                    await self._tcp_server.broadcast(landmarkList.SerializeToString())
+            else:
+                await asyncio.sleep(0)
         camera.release()
         cv2.destroyAllWindows()
 
-        # while self._running:
-        #     print('Broadcasting message')
-        #     self._tcp_server.broadcast(42, 42, 42)
-        #     sleep(2)
-        # self._thread_locker = Event()
-        # self._thread_locker.wait()
-
     def stop(self):
-        self._running = False
         self._tcp_server.stop()
-        if self._thread_locker is not None: self._thread_locker.set()
-        print('Tracker stopped')
-
-    # def start_demonstrational_capture(self, camera_index: int):
-    #     camera = cv2.VideoCapture(camera_index)
-
-    #     while camera.isOpened() and self._running:
-    #         success, image = camera.read()
-
-    #         if not success:
-    #             print('Image read unsuccessful')
-    #             break
-
-    #         mp_image = Image(image_format = ImageFormat.SRGB, data = image)
-    #         detection_result = self._detector.detect(mp_image)
-    #         annotated_image = draw_landmarks_on_image(mp_image.numpy_view(), detection_result)
-
-    #         cv2.imshow(App.WINDOW_NAME, cv2.flip(annotated_image, 1))
-
-    #     camera.release()
-    #     cv2.destroyAllWindows()
-
-
+        self.stop_capture()
+        asyncio.get_running_loop().call_soon_threadsafe(self._app_blocker.set)
+        print('Application stopped.')

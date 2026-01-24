@@ -36,7 +36,6 @@ class TcpServer:
         print('TcpServer stopped.')
 
     async def broadcast(self, data: bytes):
-        print('Sending message')
         tasks = []
         for client in self._clients:
             if client is not None:
@@ -55,21 +54,17 @@ class TcpServer:
             self._clients.append(None)
             new_connection_index = len(self._clients) - 1
         
-        
         disconnection_check_task = asyncio.create_task(self._check_for_disconnection(reader, new_connection_index))
         self._clients[new_connection_index] = Connection(disconnection_check_task, writer)
 
         if sum([1 for connection in self._clients if connection is not None]) == 1:
-            print('First client')
             self.on_first_client_connected.fire()
         
         print('Client connected.')
 
     async def _check_for_disconnection(self, reader: asyncio.StreamReader, index: int):
-        print('Bruh')
         await reader.read()
         self._clients[index] = None
         if sum([1 for connection in self._clients if connection is not None]) == 0:
-            print('Last client')
             self.on_last_client_disconnected.fire()
         print('Client disconnected.')

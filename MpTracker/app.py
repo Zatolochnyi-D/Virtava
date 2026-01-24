@@ -59,15 +59,13 @@ class App:
             # the model with just freeze. Can add some timer on client so it can know that server is not sending anything and add custom handlers on
             # no data, or send empty list message and handle it.
             detected_faces_count = len(detection_result.face_landmarks)
+            landmarkList = NormalizedLandmarkPointsList()
             if detected_faces_count:
-                for i in range(detected_faces_count):
-                    landmarkList = NormalizedLandmarkPointsList()
-                    for detected_landmark in detection_result.face_landmarks[i]:
-                        landmark = NormalizedLandmarkPoint(x=detected_landmark.x, y=detected_landmark.y, z=detected_landmark.z)
-                        landmarkList.points.append(landmark)
-                    await self._tcp_server.broadcast(landmarkList.SerializeToString())
-            else:
-                await asyncio.sleep(0)
+                for detected_landmark in detection_result.face_landmarks[0]:
+                    landmark = NormalizedLandmarkPoint(x=detected_landmark.x, y=detected_landmark.y, z=detected_landmark.z)
+                    landmarkList.points.append(landmark)
+            await self._tcp_server.broadcast(landmarkList.SerializeToString())
+            
         camera.release()
         cv2.destroyAllWindows()
 

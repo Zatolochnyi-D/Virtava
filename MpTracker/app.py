@@ -64,6 +64,7 @@ class App:
                 for detected_landmark in detection_result.face_landmarks[0]:
                     landmark = NormalizedLandmarkPoint(x=detected_landmark.x, y=detected_landmark.y, z=detected_landmark.z)
                     landmarkList.points.append(landmark)
+            print('broadcast')
             await self._tcp_server.broadcast(landmarkList.SerializeToString())
             
         camera.release()

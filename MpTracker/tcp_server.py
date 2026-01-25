@@ -22,28 +22,6 @@ class TcpServer:
         self.on_last_client_disconnected = Event()
         print('TcpServer created.')
 
-    async def start(self):
-        self._server = await asyncio.start_server(self._handle_client, self._host, self._port)
-        await self._server.start_serving()
-        print('TcpServer started.')
-
-    def stop(self):
-        if self._server is not None:
-            self._server.close()
-            for client in self._clients:
-                if client is not None:
-                    client.task.cancel()
-        print('TcpServer stopped.')
-
-    async def broadcast(self, data: bytes):
-        tasks = []
-        for client in self._clients:
-            if client is not None:
-                client.writer.write(len(data).to_bytes(4, 'little', signed = True))
-                client.writer.write(data)
-                tasks.append(asyncio.create_task(client.writer.drain())) 
-        await asyncio.gather(*tasks)
-
     async def _handle_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
         new_connection_index = 0
         for i in range(len(self._clients)):
@@ -68,3 +46,26 @@ class TcpServer:
         if sum([1 for connection in self._clients if connection is not None]) == 0:
             self.on_last_client_disconnected.fire()
         print('Client disconnected.')
+
+    async def start(self):
+        self._server = await asyncio.start_server(self._handle_client, self._host, self._port)
+        await self._server.start_serving()
+        print('TcpServer started.')
+
+    def stop(self):
+        if self._server is None:
+            return
+        self._server.close()
+        for client in self._clients:
+            if client is not None:
+                client.task.cancel()
+        print('TcpServer stopped.')
+
+    async def broadcast(self, data: bytes):
+        tasks = []
+        for client in self._clients:
+            if client is not None:
+                client.writer.write(len(data).to_bytes(4, 'little', signed = True))
+                client.writer.write(data)
+                tasks.append(asyncio.create_task(client.writer.drain())) 
+        await asyncio.gather(*tasks)

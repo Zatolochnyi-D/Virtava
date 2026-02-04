@@ -7,4 +7,5 @@ Project about animating of virtual avatars. Developed as both personal project a
 Current project's stack:
 - Mediapipe for Python (face tracking)
 - Protocol Buffers (data transport)
+- ZeroMQ (IPC)
 - Unity (rendering software)

@@ -52,7 +52,7 @@ public class Connector2 : MonoBehaviour
     {
         while (_queue.TryDequeue(out var msg))
         {
-            Debug.Log(NormalizedLandmarkPointsList.Parser.ParseFrom(msg).Points[0].X);
+            Debug.Log(NormalizedLandmarkPointsList.Parser.ParseFrom(msg).Points[0]);
             // Debug.Log("=====");
             // Debug.Log($"Received {msg.Length} bytes");
         }

@@ -1,22 +1,24 @@
-import cv2
 import signal
-import asyncio
+import zmq
+import cv2
+from typing import Literal
+from threading import Thread, Event
 from mediapipe import Image, ImageFormat
 from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
-from tcp_server import TcpServer
 from landmarks_pb2 import NormalizedLandmarkPoint, NormalizedLandmarkPointsList
 
-class App:
-    def __init__(self, model_asset_path: str, host: str, port: int):
-        self._tcp_server = TcpServer(host, port)
-        self._tcp_server.on_first_client_connected.subscribe(self.start_capture)
-        self._tcp_server.on_last_client_disconnected.subscribe(self.stop_capture)
+# App class consolidates starting and ending logic.
+class App: # TODO: add logger maybe? Look up how to use one first.
+    def __init__(self, model_asset_path: str):
+        self._context = zmq.Context()
+        self._socket = self._context.socket(zmq.PUB) # TODO: look up how to define channels to which consumers can subscribe.
+        # self._socket.monitor("", zmq.EVE) # TODO: add monitoring of connections happening - when first client connects, start tracking loop. End when last client disconnects.
 
-        self._capturing_task: asyncio.Task | None = None
-        self._app_blocker = asyncio.Event()
-        self._is_capturing_running = False
+        self._broadcast_thread: Thread | None = None
+        self._thread_blocker = Event()
+        self._running = False
 
         base_options = BaseOptions(model_asset_path = model_asset_path)
         options = FaceLandmarkerOptions(base_options = base_options,
@@ -24,30 +26,18 @@ class App:
                                         output_facial_transformation_matrixes = True,
                                         num_faces = 1)
         self._detector = FaceLandmarker.create_from_options(options)
-
+        
+        # Listen to graceful termination signals - INT (interruption) and TERM (termination).
         signal.signal(signal.SIGINT, lambda x, y: self.stop())
         signal.signal(signal.SIGTERM, lambda x, y: self.stop())
-        print('Tracker created.')
 
-    async def start(self):
-        await self._tcp_server.start()
-        print('Application started.')
-        await self._app_blocker.wait()
+        print('App created')
 
-    def start_capture(self):
-        self._capturing_task = asyncio.create_task(self.capture_loop())
-        self._is_capturing_running = True
-
-    def stop_capture(self):
-        if self._capturing_task is not None:
-            self._capturing_task.cancel()
-            self._capturing_task = None
-            self._is_capturing_running = False
-
-    async def capture_loop(self):
-        camera = cv2.VideoCapture(0)
-        while camera.isOpened() and self._is_capturing_running:
-            success, image = camera.read()
+    def _broadcast_continuously(self):
+        camera = cv2.VideoCapture(0) # TODO: move camera index injection up.
+                                     # TODO: it is not guaranteed for camera to be found. Handle possible error.
+        while camera.isOpened() and self._running:
+            success, image = camera.read() # TODO: look up what can be cause of unsuccessful read and handle those causes. Just break with fail message is not enough.
             if not success:
                 print('Image read unsuccessful')
                 break
@@ -64,14 +54,26 @@ class App:
                 for detected_landmark in detection_result.face_landmarks[0]:
                     landmark = NormalizedLandmarkPoint(x=detected_landmark.x, y=detected_landmark.y, z=detected_landmark.z)
                     landmarkList.points.append(landmark)
-            print('broadcast')
-            await self._tcp_server.broadcast(landmarkList.SerializeToString())
+            try:
+                self._socket.send(landmarkList.SerializeToString())
+            except zmq.ZMQError:
+                print('socket closed error') # TODO: look up how to properly detect socket closed on sending.
+                                             # TODO: apparently ZMQ sockets are not thread-safe, and I should use send on the same thread where socket is
+                                             #       created. So look into polling, non-blocking sockets and queues.
+            print('  data sent')
             
         camera.release()
-        cv2.destroyAllWindows()
+
+    def start(self, host: str, port: int, protocol: Literal['tcp'] = 'tcp'):
+        self._running = True
+        self._socket.bind(f'{protocol}://{host}:{port}')
+        self._broadcast_thread = Thread(target=self._broadcast_continuously)
+        self._broadcast_thread.start()
+        print('App started')
+        self._thread_blocker.wait()
 
     def stop(self):
-        self._tcp_server.stop()
-        self.stop_capture()
-        asyncio.get_running_loop().call_soon_threadsafe(self._app_blocker.set)
-        print('Application stopped.')
+        self._running = False
+        self._socket.close()
+        self._context.destroy()
+        self._thread_blocker.set()

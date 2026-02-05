@@ -9,7 +9,6 @@ from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
 from landmarks_pb2 import NormalizedLandmarkPoint, NormalizedLandmarkPointsList
 
-# App class consolidates starting and ending logic.
 class App: # TODO: add logger maybe? Look up how to use one first.
     def __init__(self, model_asset_path: str):
         self._context = zmq.Context()
@@ -27,7 +26,6 @@ class App: # TODO: add logger maybe? Look up how to use one first.
                                         num_faces = 1)
         self._detector = FaceLandmarker.create_from_options(options)
         
-        # Listen to graceful termination signals - INT (interruption) and TERM (termination).
         signal.signal(signal.SIGINT, lambda x, y: self.stop())
         signal.signal(signal.SIGTERM, lambda x, y: self.stop())
 

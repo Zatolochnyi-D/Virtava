@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+message NormalizedLandmark {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+}
+
+message Blendshapes {
+    float browDownLeft = 1; 
+    float rowDownRight = 2; 
+    float rowInnerUp = 3; 
+    float rowOuterUpLeft = 4; 
+    float rowOuterUpRight = 5; 
+    float cheekPuff = 6; 
+    float cheekSquintLeft = 7; 
+    float cheekSquintRight = 8; 
+    float eyeBlinkLeft = 9; 
+    float eyeBlinkRight = 10;
+    float eyeLookDownLeft = 11;
+    float eyeLookDownRight = 12;
+    float eyeLookInLeft = 13;
+    float eyeLookInRight = 14;
+    float eyeLookOutLeft = 15;
+    float eyeLookOutRight = 16;
+    float eyeLookUpLeft = 17;
+    float eyeLookUpRight = 18;
+    float eyeSquintLeft = 19;
+    float eyeSquintRight = 20;
+    float eyeWideLeft = 21;
+    float eyeWideRight = 22;
+    float jawForward = 23;
+    float jawLeft = 24;
+    float jawOpen = 25;
+    float jawRight = 26;
+    float mouthClose = 27;
+    float mouthDimpleLeft = 28;
+    float mouthDimpleRight = 29;
+    float mouthFrownLeft = 30;
+    float mouthFrownRight = 31;
+    float mouthFunnel = 32;
+    float mouthLeft = 33;
+    float mouthLowerDownLe = 34;
+    float mouthLowerDownRight = 35;
+    float mouthPressLeft = 36;
+    float mouthPressRight = 37;
+    float mouthPucker = 38;
+    float mouthRight = 39;
+    float mouthRollLower = 40;
+    float mouthRollUpper = 41;
+    float mouthShrugLower = 42;
+    float mouthShrugUpper = 43;
+    float mouthSmileLeft = 44;
+    float mouthSmileRight = 45;
+    float mouthStretchLeft = 46;
+    float mouthStretchRight = 47;
+    float mouthUpperUpLeft = 48;
+    float mouthUpperUpRight = 49;
+    float noseSneerLeft = 50;
+    float noseSneerRight = 51;
+    float tongueOut = 52;
+}
+
+message TrackingResult {
+    bool trackingSucceded = 1;
+    repeated NormalizedLandmark normalizedLandmarkList = 2;
+    Blendshapes blendshapes = 3;
+}

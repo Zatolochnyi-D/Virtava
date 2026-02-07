@@ -16,12 +16,12 @@ class NormalizedLandmark(_message.Message):
     def __init__(self, x: _Optional[float] = ..., y: _Optional[float] = ..., z: _Optional[float] = ...) -> None: ...
 
 class Blendshapes(_message.Message):
-    __slots__ = ("browDownLeft", "rowDownRight", "rowInnerUp", "rowOuterUpLeft", "rowOuterUpRight", "cheekPuff", "cheekSquintLeft", "cheekSquintRight", "eyeBlinkLeft", "eyeBlinkRight", "eyeLookDownLeft", "eyeLookDownRight", "eyeLookInLeft", "eyeLookInRight", "eyeLookOutLeft", "eyeLookOutRight", "eyeLookUpLeft", "eyeLookUpRight", "eyeSquintLeft", "eyeSquintRight", "eyeWideLeft", "eyeWideRight", "jawForward", "jawLeft", "jawOpen", "jawRight", "mouthClose", "mouthDimpleLeft", "mouthDimpleRight", "mouthFrownLeft", "mouthFrownRight", "mouthFunnel", "mouthLeft", "mouthLowerDownLe", "mouthLowerDownRight", "mouthPressLeft", "mouthPressRight", "mouthPucker", "mouthRight", "mouthRollLower", "mouthRollUpper", "mouthShrugLower", "mouthShrugUpper", "mouthSmileLeft", "mouthSmileRight", "mouthStretchLeft", "mouthStretchRight", "mouthUpperUpLeft", "mouthUpperUpRight", "noseSneerLeft", "noseSneerRight", "tongueOut")
+    __slots__ = ("browDownLeft", "browDownRight", "browInnerUp", "browOuterUpLeft", "browOuterUpRight", "cheekPuff", "cheekSquintLeft", "cheekSquintRight", "eyeBlinkLeft", "eyeBlinkRight", "eyeLookDownLeft", "eyeLookDownRight", "eyeLookInLeft", "eyeLookInRight", "eyeLookOutLeft", "eyeLookOutRight", "eyeLookUpLeft", "eyeLookUpRight", "eyeSquintLeft", "eyeSquintRight", "eyeWideLeft", "eyeWideRight", "jawForward", "jawLeft", "jawOpen", "jawRight", "mouthClose", "mouthDimpleLeft", "mouthDimpleRight", "mouthFrownLeft", "mouthFrownRight", "mouthFunnel", "mouthLeft", "mouthLowerDownLeft", "mouthLowerDownRight", "mouthPressLeft", "mouthPressRight", "mouthPucker", "mouthRight", "mouthRollLower", "mouthRollUpper", "mouthShrugLower", "mouthShrugUpper", "mouthSmileLeft", "mouthSmileRight", "mouthStretchLeft", "mouthStretchRight", "mouthUpperUpLeft", "mouthUpperUpRight", "noseSneerLeft", "noseSneerRight", "tongueOut")
     BROWDOWNLEFT_FIELD_NUMBER: _ClassVar[int]
-    ROWDOWNRIGHT_FIELD_NUMBER: _ClassVar[int]
-    ROWINNERUP_FIELD_NUMBER: _ClassVar[int]
-    ROWOUTERUPLEFT_FIELD_NUMBER: _ClassVar[int]
-    ROWOUTERUPRIGHT_FIELD_NUMBER: _ClassVar[int]
+    BROWDOWNRIGHT_FIELD_NUMBER: _ClassVar[int]
+    BROWINNERUP_FIELD_NUMBER: _ClassVar[int]
+    BROWOUTERUPLEFT_FIELD_NUMBER: _ClassVar[int]
+    BROWOUTERUPRIGHT_FIELD_NUMBER: _ClassVar[int]
     CHEEKPUFF_FIELD_NUMBER: _ClassVar[int]
     CHEEKSQUINTLEFT_FIELD_NUMBER: _ClassVar[int]
     CHEEKSQUINTRIGHT_FIELD_NUMBER: _ClassVar[int]
@@ -50,7 +50,7 @@ class Blendshapes(_message.Message):
     MOUTHFROWNRIGHT_FIELD_NUMBER: _ClassVar[int]
     MOUTHFUNNEL_FIELD_NUMBER: _ClassVar[int]
     MOUTHLEFT_FIELD_NUMBER: _ClassVar[int]
-    MOUTHLOWERDOWNLE_FIELD_NUMBER: _ClassVar[int]
+    MOUTHLOWERDOWNLEFT_FIELD_NUMBER: _ClassVar[int]
     MOUTHLOWERDOWNRIGHT_FIELD_NUMBER: _ClassVar[int]
     MOUTHPRESSLEFT_FIELD_NUMBER: _ClassVar[int]
     MOUTHPRESSRIGHT_FIELD_NUMBER: _ClassVar[int]
@@ -70,10 +70,10 @@ class Blendshapes(_message.Message):
     NOSESNEERRIGHT_FIELD_NUMBER: _ClassVar[int]
     TONGUEOUT_FIELD_NUMBER: _ClassVar[int]
     browDownLeft: float
-    rowDownRight: float
-    rowInnerUp: float
-    rowOuterUpLeft: float
-    rowOuterUpRight: float
+    browDownRight: float
+    browInnerUp: float
+    browOuterUpLeft: float
+    browOuterUpRight: float
     cheekPuff: float
     cheekSquintLeft: float
     cheekSquintRight: float
@@ -102,7 +102,7 @@ class Blendshapes(_message.Message):
     mouthFrownRight: float
     mouthFunnel: float
     mouthLeft: float
-    mouthLowerDownLe: float
+    mouthLowerDownLeft: float
     mouthLowerDownRight: float
     mouthPressLeft: float
     mouthPressRight: float
@@ -121,7 +121,7 @@ class Blendshapes(_message.Message):
     noseSneerLeft: float
     noseSneerRight: float
     tongueOut: float
-    def __init__(self, browDownLeft: _Optional[float] = ..., rowDownRight: _Optional[float] = ..., rowInnerUp: _Optional[float] = ..., rowOuterUpLeft: _Optional[float] = ..., rowOuterUpRight: _Optional[float] = ..., cheekPuff: _Optional[float] = ..., cheekSquintLeft: _Optional[float] = ..., cheekSquintRight: _Optional[float] = ..., eyeBlinkLeft: _Optional[float] = ..., eyeBlinkRight: _Optional[float] = ..., eyeLookDownLeft: _Optional[float] = ..., eyeLookDownRight: _Optional[float] = ..., eyeLookInLeft: _Optional[float] = ..., eyeLookInRight: _Optional[float] = ..., eyeLookOutLeft: _Optional[float] = ..., eyeLookOutRight: _Optional[float] = ..., eyeLookUpLeft: _Optional[float] = ..., eyeLookUpRight: _Optional[float] = ..., eyeSquintLeft: _Optional[float] = ..., eyeSquintRight: _Optional[float] = ..., eyeWideLeft: _Optional[float] = ..., eyeWideRight: _Optional[float] = ..., jawForward: _Optional[float] = ..., jawLeft: _Optional[float] = ..., jawOpen: _Optional[float] = ..., jawRight: _Optional[float] = ..., mouthClose: _Optional[float] = ..., mouthDimpleLeft: _Optional[float] = ..., mouthDimpleRight: _Optional[float] = ..., mouthFrownLeft: _Optional[float] = ..., mouthFrownRight: _Optional[float] = ..., mouthFunnel: _Optional[float] = ..., mouthLeft: _Optional[float] = ..., mouthLowerDownLe: _Optional[float] = ..., mouthLowerDownRight: _Optional[float] = ..., mouthPressLeft: _Optional[float] = ..., mouthPressRight: _Optional[float] = ..., mouthPucker: _Optional[float] = ..., mouthRight: _Optional[float] = ..., mouthRollLower: _Optional[float] = ..., mouthRollUpper: _Optional[float] = ..., mouthShrugLower: _Optional[float] = ..., mouthShrugUpper: _Optional[float] = ..., mouthSmileLeft: _Optional[float] = ..., mouthSmileRight: _Optional[float] = ..., mouthStretchLeft: _Optional[float] = ..., mouthStretchRight: _Optional[float] = ..., mouthUpperUpLeft: _Optional[float] = ..., mouthUpperUpRight: _Optional[float] = ..., noseSneerLeft: _Optional[float] = ..., noseSneerRight: _Optional[float] = ..., tongueOut: _Optional[float] = ...) -> None: ...
+    def __init__(self, browDownLeft: _Optional[float] = ..., browDownRight: _Optional[float] = ..., browInnerUp: _Optional[float] = ..., browOuterUpLeft: _Optional[float] = ..., browOuterUpRight: _Optional[float] = ..., cheekPuff: _Optional[float] = ..., cheekSquintLeft: _Optional[float] = ..., cheekSquintRight: _Optional[float] = ..., eyeBlinkLeft: _Optional[float] = ..., eyeBlinkRight: _Optional[float] = ..., eyeLookDownLeft: _Optional[float] = ..., eyeLookDownRight: _Optional[float] = ..., eyeLookInLeft: _Optional[float] = ..., eyeLookInRight: _Optional[float] = ..., eyeLookOutLeft: _Optional[float] = ..., eyeLookOutRight: _Optional[float] = ..., eyeLookUpLeft: _Optional[float] = ..., eyeLookUpRight: _Optional[float] = ..., eyeSquintLeft: _Optional[float] = ..., eyeSquintRight: _Optional[float] = ..., eyeWideLeft: _Optional[float] = ..., eyeWideRight: _Optional[float] = ..., jawForward: _Optional[float] = ..., jawLeft: _Optional[float] = ..., jawOpen: _Optional[float] = ..., jawRight: _Optional[float] = ..., mouthClose: _Optional[float] = ..., mouthDimpleLeft: _Optional[float] = ..., mouthDimpleRight: _Optional[float] = ..., mouthFrownLeft: _Optional[float] = ..., mouthFrownRight: _Optional[float] = ..., mouthFunnel: _Optional[float] = ..., mouthLeft: _Optional[float] = ..., mouthLowerDownLeft: _Optional[float] = ..., mouthLowerDownRight: _Optional[float] = ..., mouthPressLeft: _Optional[float] = ..., mouthPressRight: _Optional[float] = ..., mouthPucker: _Optional[float] = ..., mouthRight: _Optional[float] = ..., mouthRollLower: _Optional[float] = ..., mouthRollUpper: _Optional[float] = ..., mouthShrugLower: _Optional[float] = ..., mouthShrugUpper: _Optional[float] = ..., mouthSmileLeft: _Optional[float] = ..., mouthSmileRight: _Optional[float] = ..., mouthStretchLeft: _Optional[float] = ..., mouthStretchRight: _Optional[float] = ..., mouthUpperUpLeft: _Optional[float] = ..., mouthUpperUpRight: _Optional[float] = ..., noseSneerLeft: _Optional[float] = ..., noseSneerRight: _Optional[float] = ..., tongueOut: _Optional[float] = ...) -> None: ...
 
 class TrackingResult(_message.Message):
     __slots__ = ("trackingSucceded", "normalizedLandmarkList", "blendshapes")

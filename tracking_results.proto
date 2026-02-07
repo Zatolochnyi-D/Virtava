@@ -8,10 +8,10 @@ message NormalizedLandmark {
 
 message Blendshapes {
     float browDownLeft = 1; 
-    float rowDownRight = 2; 
-    float rowInnerUp = 3; 
-    float rowOuterUpLeft = 4; 
-    float rowOuterUpRight = 5; 
+    float browDownRight = 2; 
+    float browInnerUp = 3; 
+    float browOuterUpLeft = 4; 
+    float browOuterUpRight = 5; 
     float cheekPuff = 6; 
     float cheekSquintLeft = 7; 
     float cheekSquintRight = 8; 
@@ -40,7 +40,7 @@ message Blendshapes {
     float mouthFrownRight = 31;
     float mouthFunnel = 32;
     float mouthLeft = 33;
-    float mouthLowerDownLe = 34;
+    float mouthLowerDownLeft = 34;
     float mouthLowerDownRight = 35;
     float mouthPressLeft = 36;
     float mouthPressRight = 37;

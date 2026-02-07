@@ -51,14 +51,18 @@ class App: # TODO: add logger maybe? Look up how to use one first.
             detected_faces_count = len(detection_result.face_landmarks)
             if not detected_faces_count:
                 result.trackingSucceded = False
+                print('  Send failure')
             else:
                 result.trackingSucceded = True
                 for detected_landmark in detection_result.face_landmarks[0]:
                     landmark = NormalizedLandmark(x = detected_landmark.x, y = detected_landmark.y, z = detected_landmark.z)
                     result.normalizedLandmarkList.append(landmark)
-                blendshapes = Blendshapes()
                 for category in detection_result.face_blendshapes[0]:
-                    blendshapes[category.category_name] = category.score
+                    if category.category_name == '_neutral': continue
+                    setattr(result.blendshapes, category.category_name, category.score) # TODO: not very safe thing, only reliable of belief that blendshape
+                                                                                        #       names from documentation are the same inside detection results.
+                                                                                        #       Find a better way to do it.
+                print('  Send success')
                 
             try:
                 self._socket.send(result.SerializeToString())
@@ -66,7 +70,6 @@ class App: # TODO: add logger maybe? Look up how to use one first.
                 print('socket closed error') # TODO: look up how to properly detect socket closed on sending.
                                              # TODO: apparently ZMQ sockets are not thread-safe, and I should use send on the same thread where socket is
                                              #       created. So look into polling, non-blocking sockets and queues.
-            print('  data sent')
             
         camera.release()
 

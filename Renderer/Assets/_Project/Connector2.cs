@@ -16,13 +16,12 @@ public class Connector2 : MonoBehaviour
     {
         _running = true;
         _thread = new Thread(ReceiveLoop);
-        // new Thread()
         _thread.Start();
     }
 
     void ReceiveLoop()
     {
-        AsyncIO.ForceDotNet.Force(); // REQUIRED for Unity
+        AsyncIO.ForceDotNet.Force();
 
         using (_socket = new SubscriberSocket())
         {
@@ -34,27 +33,33 @@ public class Connector2 : MonoBehaviour
                 try
                 {
                     var success = _socket.TryReceiveFrameBytes(TimeSpan.FromMilliseconds(100.0), out var msg);
-                    // Debug.Log($"Hey, {success}");
                     if (success)
                         _queue.Enqueue(msg);
                 }
-                catch
+                catch (Exception e)
                 {
+                    Debug.Log(e.GetType());
+                    Debug.Log(e.Message);
                     break;
                 }
             }
         }
-
-        // NetMQConfig.Cleanup();
     }
 
     void Update()
     {
         while (_queue.TryDequeue(out var msg))
         {
-            Debug.Log(NormalizedLandmarkPointsList.Parser.ParseFrom(msg).Points[0]);
-            // Debug.Log("=====");
-            // Debug.Log($"Received {msg.Length} bytes");
+            var result = TrackingResult.Parser.ParseFrom(msg);
+            if (result.TrackingSucceded)
+            {
+                Debug.Log("Tracking successful");
+                Debug.Log(result.Blendshapes.BrowDownLeft);
+            }
+            else
+            {
+                Debug.Log("Tracking failed");
+            }
         }
     }
 

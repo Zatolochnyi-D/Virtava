@@ -1,1 +1,1 @@
-protoc --proto_path=../../../ --csharp_out=. ../../../landmarks.proto
+protoc --proto_path=../../../ --csharp_out=. ../../../tracking_results.proto

@@ -7,7 +7,8 @@ from mediapipe import Image, ImageFormat
 from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
-from landmarks_pb2 import NormalizedLandmarkPoint, NormalizedLandmarkPointsList
+# from landmarks_pb2 import NormalizedLandmarkPoint, NormalizedLandmarkPointsList
+from tracking_results_pb2 import NormalizedLandmark, Blendshapes, TrackingResult
 
 class App: # TODO: add logger maybe? Look up how to use one first.
     def __init__(self, model_asset_path: str):
@@ -46,14 +47,21 @@ class App: # TODO: add logger maybe? Look up how to use one first.
             # There can be 0 faces detected. In such case no message will be sent. Actually no handling needed on client, in case of no detection
             # the model with just freeze. Can add some timer on client so it can know that server is not sending anything and add custom handlers on
             # no data, or send empty list message and handle it.
+            result = TrackingResult()
             detected_faces_count = len(detection_result.face_landmarks)
-            landmarkList = NormalizedLandmarkPointsList()
-            if detected_faces_count:
+            if not detected_faces_count:
+                result.trackingSucceded = False
+            else:
+                result.trackingSucceded = True
                 for detected_landmark in detection_result.face_landmarks[0]:
-                    landmark = NormalizedLandmarkPoint(x=detected_landmark.x, y=detected_landmark.y, z=detected_landmark.z)
-                    landmarkList.points.append(landmark)
+                    landmark = NormalizedLandmark(x = detected_landmark.x, y = detected_landmark.y, z = detected_landmark.z)
+                    result.normalizedLandmarkList.append(landmark)
+                blendshapes = Blendshapes()
+                for category in detection_result.face_blendshapes[0]:
+                    blendshapes[category.category_name] = category.score
+                
             try:
-                self._socket.send(landmarkList.SerializeToString())
+                self._socket.send(result.SerializeToString())
             except zmq.ZMQError:
                 print('socket closed error') # TODO: look up how to properly detect socket closed on sending.
                                              # TODO: apparently ZMQ sockets are not thread-safe, and I should use send on the same thread where socket is

@@ -1,7 +1,7 @@
 import signal
 import zmq
 import cv2
-from typing import Literal
+from typing import Literal, Optional
 from threading import Thread, Event
 from mediapipe import Image, ImageFormat
 from mediapipe.tasks.python.core.base_options import BaseOptions
@@ -16,7 +16,7 @@ class App: # TODO: add logger maybe? Look up how to use one first.
         self._socket = self._context.socket(zmq.PUB) # TODO: look up how to define channels to which consumers can subscribe.
         # self._socket.monitor("", zmq.EVE) # TODO: add monitoring of connections happening - when first client connects, start tracking loop. End when last client disconnects.
 
-        self._broadcast_thread: Thread | None = None
+        self._broadcast_thread: Optional[Thread]  = None
         self._thread_blocker = Event()
         self._running = False
 
@@ -35,6 +35,8 @@ class App: # TODO: add logger maybe? Look up how to use one first.
     def _broadcast_continuously(self):
         camera = cv2.VideoCapture(0) # TODO: move camera index injection up.
                                      # TODO: it is not guaranteed for camera to be found. Handle possible error.
+                                     # TODO: if system restricts access to camera, app should ask for permission first. OpenCV asks for permission
+                                     #       but doesn't wait for user to grant it and fails.
         while camera.isOpened() and self._running:
             success, image = camera.read() # TODO: look up what can be cause of unsuccessful read and handle those causes. Just break with fail message is not enough.
             if not success:

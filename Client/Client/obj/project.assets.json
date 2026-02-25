@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/denys/Desktop/TaHM/Project/DataConsumer/DataConsumer/DataConsumer.csproj",
-      "projectName": "DataConsumer",
-      "projectPath": "/Users/denys/Desktop/TaHM/Project/DataConsumer/DataConsumer/DataConsumer.csproj",
+      "projectUniqueName": "/Users/denys/Desktop/TaHM/Project/Client/Client/Client.csproj",
+      "projectName": "Client",
+      "projectPath": "/Users/denys/Desktop/TaHM/Project/Client/Client/Client.csproj",
       "packagesPath": "/Users/denys/.nuget/packages/",
-      "outputPath": "/Users/denys/Desktop/TaHM/Project/DataConsumer/DataConsumer/obj/",
+      "outputPath": "/Users/denys/Desktop/TaHM/Project/Client/Client/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/denys/.nuget/NuGet/NuGet.Config"
@@ -71,21 +71,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1301",
-      "level": "Error",
-      "message": "Unable to load the service index for source https://api.nuget.org/v3/index.json.\n  nodename nor servname provided, or not known (api.nuget.org:443)\n  nodename nor servname provided, or not known"
-    },
-    {
-      "code": "NU1900",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
-    }
-  ]
+  }
 }

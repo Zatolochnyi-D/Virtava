@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "FYV4bMq7cFs=",
+  "success": true,
+  "projectFilePath": "/Users/denys/Desktop/TaHM/Project/Client/Client/Client.csproj",
+  "expectedPackageFiles": [
+    "/Users/denys/.nuget/packages/netstandard.library.ref/2.1.0/netstandard.library.ref.2.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}

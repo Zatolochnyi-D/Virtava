@@ -1,6 +1,6 @@
 is_global = true
-build_property.RootNamespace = DataConsumer
-build_property.ProjectDir = /Users/denys/Desktop/TaHM/Project/DataConsumer/DataConsumer/
+build_property.RootNamespace = Client
+build_property.ProjectDir = /Users/denys/Desktop/TaHM/Project/Client/Client/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false

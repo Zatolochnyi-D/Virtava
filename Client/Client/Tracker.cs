@@ -36,15 +36,7 @@ namespace Univertracker.Client
                     var success = socket.TryReceiveFrameBytes(TimeSpan.FromMilliseconds(100.0), out var msg);
                     if (success)
                     {
-                        var result = TrackingResult.Parser.ParseFrom(msg);
-                        if (result.TrackingSucceded)
-                        {
-                            OnResultReceived?.Invoke(result);
-                        }
-                        else
-                        {
-                            OnResultNotReceived?.Invoke();
-                        }
+                        _queue.Enqueue(msg!);
                     }
                 }
                 catch //(Exception e)
@@ -56,7 +48,7 @@ namespace Univertracker.Client
             }
         }
 
-        void Update()
+        public void Update()
         {
             while (_queue.TryDequeue(out var msg))
             {
@@ -64,13 +56,10 @@ namespace Univertracker.Client
                 if (result.TrackingSucceded)
                 {
                     OnResultReceived?.Invoke(result);
-                    // Debug.Log("Tracking successful");
-                    // Debug.Log(result.Blendshapes.BrowDownLeft);`
                 }
                 else
                 {
                     OnResultNotReceived?.Invoke();
-                    // Debug.Log("Tracking failed");
                 }
             }
         }

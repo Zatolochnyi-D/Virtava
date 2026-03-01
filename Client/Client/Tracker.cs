@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Threading;
 using NetMQ;
 using NetMQ.Sockets;
 
@@ -8,66 +6,34 @@ namespace Univertracker.Client
 {
     public class Tracker : IDisposable
     {
-        public event Action<TrackingResult> OnResultReceived = null!;
-        public event Action OnResultNotReceived = null!;
+        /// <summary>
+        /// Runs from background thread.
+        /// </summary>
+        public event Action<TrackingResult>? OnResultReceived; // TODO: check out what SynchronizationContext is.
 
-        private Thread _thread;
-        private readonly ConcurrentQueue<byte[]> _queue = new ConcurrentQueue<byte[]>();
-        private bool _running;
+        private NetMQPoller _poller;
+        private SubscriberSocket _socket;
 
         public Tracker()
         {
-            _running = true;
-            _thread = new Thread(ReceiveLoop);
-            _thread.Start();
-        }
-
-        private void ReceiveLoop()
-        {
-            using SubscriberSocket socket = new SubscriberSocket();
-
-            socket.Connect("tcp://localhost:13133");
-            socket.SubscribeToAnyTopic();
-
-            while (_running)
+            _poller = new NetMQPoller();
+            _socket = new SubscriberSocket("tcp://localhost:13133");
+            _socket.SubscribeToAnyTopic();
+            _socket.ReceiveReady += (sender, args) =>
             {
-                try
-                {
-                    var success = socket.TryReceiveFrameBytes(TimeSpan.FromMilliseconds(100.0), out var msg);
-                    if (success)
-                    {
-                        _queue.Enqueue(msg!);
-                    }
-                }
-                catch //(Exception e)
-                {
-                    // Debug.Log(e.GetType());
-                    // Debug.Log(e.Message);
-                    break;
-                }
-            }
-        }
-
-        public void Update()
-        {
-            while (_queue.TryDequeue(out var msg))
-            {
-                var result = TrackingResult.Parser.ParseFrom(msg);
-                if (result.TrackingSucceded)
-                {
-                    OnResultReceived?.Invoke(result);
-                }
-                else
-                {
-                    OnResultNotReceived?.Invoke();
-                }
-            }
+                // TODO: test any errors that may happend here.
+                var messageBytes = args.Socket.ReceiveFrameBytes(); // TODO: 
+                var message = TrackingResult.Parser.ParseFrom(messageBytes);
+                OnResultReceived?.Invoke(message);
+            };
+            _poller.Add(_socket);
+            _poller.RunAsync();
         }
 
         public void Dispose()
         {
-            _running = false;
-            _thread?.Join();
+            _poller.Dispose();
+            _socket.Dispose();
         }
     }
 }

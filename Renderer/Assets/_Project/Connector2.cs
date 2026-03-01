@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using UnityEngine;
 using Univertracker.Client;
 
@@ -8,17 +9,30 @@ public class Connector2 : MonoBehaviour
     [SerializeField] private float maxRotationDeviation;
 
     private Tracker _tracker;
+    private ConcurrentQueue<TrackingResult> _queue; // TODO: Check out Volatile and Interlock.
 
     void Start()
     {
+        _queue = new();
         _tracker = new Tracker();
         _tracker.OnResultReceived += ProcessResults;
-        _tracker.OnResultNotReceived += () => Debug.Log("Tracking failed");
     }
 
     void Update()
     {
-        _tracker.Update();
+        if (_queue.TryDequeue(out var result))
+        {
+            if (result.TrackingSucceded)
+            {
+                Debug.Log("Tracking successful");
+                var dev = maxRotationDeviation - _restPosition;
+                _jawBone.localEulerAngles = _jawBone.localEulerAngles.With(z: _restPosition + dev * result.Blendshapes.JawOpen);
+            }
+            else
+            {
+                Debug.Log("Tracking failed");
+            }
+        }
     }
 
     void OnDestroy()
@@ -28,9 +42,7 @@ public class Connector2 : MonoBehaviour
 
     private void ProcessResults(TrackingResult result)
     {
-        Debug.Log("Tracking successful");
-        var dev = maxRotationDeviation - _restPosition;
-        _jawBone.localEulerAngles = _jawBone.localEulerAngles.With(z: _restPosition + dev * result.Blendshapes.JawOpen);
+        _queue.Enqueue(result);
     }
 }
 

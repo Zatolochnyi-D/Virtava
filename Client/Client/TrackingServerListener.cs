@@ -4,7 +4,7 @@ using NetMQ.Sockets;
 
 namespace Univertracker.Client
 {
-    public class Tracker : IDisposable
+    public class TrackingServerListener : IDisposable
     {
         /// <summary>
         /// Runs from background thread.
@@ -14,15 +14,15 @@ namespace Univertracker.Client
         private NetMQPoller _poller;
         private SubscriberSocket _socket;
 
-        public Tracker()
+        public TrackingServerListener()
         {
             _poller = new NetMQPoller();
-            _socket = new SubscriberSocket("tcp://localhost:13133");
+            _socket = new SubscriberSocket("tcp://localhost:13133"); // TODO: move connection string to something more configurable.
             _socket.SubscribeToAnyTopic();
             _socket.ReceiveReady += (sender, args) =>
             {
-                // TODO: test any errors that may happend here.
-                var messageBytes = args.Socket.ReceiveFrameBytes(); // TODO: 
+                // TODO: test any errors that may happen here.
+                var messageBytes = args.Socket.ReceiveFrameBytes(); // TODO:  TODO: double check what docs meant under using TryReceive.
                 var message = TrackingResult.Parser.ParseFrom(messageBytes);
                 OnResultReceived?.Invoke(message);
             };
@@ -33,7 +33,7 @@ namespace Univertracker.Client
         public void Dispose()
         {
             _poller.Dispose();
-            _socket.Dispose();
+            _socket.Dispose(); // TODO: Make sure socket closed properly and there will be no reads afterward.
         }
     }
 }

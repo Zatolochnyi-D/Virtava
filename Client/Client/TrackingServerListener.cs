@@ -33,7 +33,7 @@ namespace Univertracker.Client
         public void Dispose()
         {
             _poller.Dispose();
-            _socket.Dispose(); // TODO: Make sure socket closed properly and there will be no reads afterward.
+            _socket.Dispose(); // TODO: Make sure socket is closed properly and that there will be no reads afterward.
         }
     }
 }

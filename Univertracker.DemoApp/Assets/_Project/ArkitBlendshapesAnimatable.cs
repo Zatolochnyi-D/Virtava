@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Univertracker.Client;
 
 public class ArkitBlendshapesAnimatable : MonoBehaviour, IArkitBlendshapesAnimatable
 {
@@ -14,18 +15,14 @@ public class ArkitBlendshapesAnimatable : MonoBehaviour, IArkitBlendshapesAnimat
     {
         _blendshapeIndexMap = new();
 
-        // TODO: move string to enum conversion to Client lib.
-        var nameBlendshapeMap = Enum.GetNames(typeof(ArkitBlendshape)).Select(x => (Enum.Parse<ArkitBlendshape>(x), x.ToLower())).ToDictionary(x => x.Item2, x => x.Item1);
-
         var mesh = _renderer.sharedMesh;
         for (int i = 0; i < mesh.blendShapeCount; i++)
         {
-            var name = mesh.GetBlendShapeName(i).ToLower();
-            var blendshape = nameBlendshapeMap[name];
-            _blendshapeIndexMap[blendshape] = i;
+            var name = mesh.GetBlendShapeName(i);
+            _blendshapeIndexMap[ArkitBlendshapes.GetBlendshape(name)] = i;
         }
 
-        _excludeFromAnimation = nameBlendshapeMap.Values.Where(x => !_blendshapeIndexMap.TryGetValue(x, out _));
+        _excludeFromAnimation = ArkitBlendshapes.BlendshapesList.Where(x => !_blendshapeIndexMap.TryGetValue(x, out _));
         foreach (var blendshape in _excludeFromAnimation)
         {
             Debug.LogWarning($"{blendshape} was not present on model.");

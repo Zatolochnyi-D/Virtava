@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace Univertracker.Client
 {
@@ -69,7 +67,8 @@ namespace Univertracker.Client
 
         static ArkitBlendshapes()
         {
-            _blendshapeNamesMap = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("blendshapeNamesMap.json"))!; // TODO: find a better way to load that file.
+            _blendshapeNamesMap = new Dictionary<string, string>();
+            // _blendshapeNamesMap = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("blendshapeNamesMap.json"))!; // TODO: find a better way to load that file.
         }
 
         public static ArkitBlendshape GetBlendshape(string blendshapeName)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using NetMQ;
 using NetMQ.Sockets;
 
@@ -34,6 +35,21 @@ namespace Univertracker.Client
         {
             _poller.Dispose();
             _socket.Dispose(); // TODO: Make sure socket is closed properly and that there will be no reads afterward.
+        }
+    }
+
+    public class SubprocessStarter : IDisposable
+    {
+        private Process _process;
+
+        public SubprocessStarter()
+        {
+            _process = Process.Start("/Users/denys/Desktop/Diploma/Project/MediapipeTracker/dist/main", "13133 /Users/denys/Desktop/Diploma/Project/MediapipeTracker/face_landmarker.task");
+        }
+
+        public void Dispose()
+        {
+            _process.Close();
         }
     }
 }

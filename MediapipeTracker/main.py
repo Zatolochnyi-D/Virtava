@@ -4,19 +4,17 @@ from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
 from mediapipe import Image, ImageFormat
-from server.app import App, Server
+from server.cl_args_handler import ClArgsHandler
+from server.server import Server
 from server.tracking_results_pb2 import NormalizedLandmark, TrackingResult
-
-model = 'face_landmarker.task'
-port = 13133
 
 print('Start of program')
 
-app = App()
+parameters = ClArgsHandler()
 
-server = Server(port)
+server = Server(parameters.port)
 
-base_options = BaseOptions(model_asset_path = model)
+base_options = BaseOptions(model_asset_path = parameters.model_asset_path)
 options = FaceLandmarkerOptions(base_options = base_options,
                                 output_face_blendshapes = True,
                                 output_facial_transformation_matrixes = True,
@@ -62,5 +60,6 @@ while camera.isOpened() and running:
     server.send(result)
     
 camera.release()
+server.stop()
 
 print('End of program')

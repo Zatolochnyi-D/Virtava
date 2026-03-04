@@ -1,5 +1,5 @@
 import zmq
-from server.tracking_results_pb2 import TrackingResult
+from serverlib.tracking_results_pb2 import TrackingResult
 
 class Server:  # TODO: add logger maybe? Look up how to use one first.
     def __init__(self, port: int):
@@ -20,5 +20,3 @@ class Server:  # TODO: add logger maybe? Look up how to use one first.
     def stop(self):
         self._broadcast_socket.close()
         self._context.destroy()
-
-

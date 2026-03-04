@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "server"
+version = "0.0.1"
+dependencies = [
+  "grpcio-tools==1.62.3",
+  "pyzmq==27.1.0",
+  "protobuf==4.25.8",
+]
+requires-python = ">=3.9"
+
+[tool.setuptools.packages.find]
+where = ["src"]

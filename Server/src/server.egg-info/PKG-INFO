@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: server
+Version: 0.0.1
+Requires-Python: >=3.9
+Requires-Dist: grpcio-tools==1.62.3
+Requires-Dist: pyzmq==27.1.0
+Requires-Dist: protobuf==4.25.8

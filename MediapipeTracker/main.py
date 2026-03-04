@@ -4,9 +4,9 @@ from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
 from mediapipe import Image, ImageFormat
-from server.cl_args_handler import ClArgsHandler
-from server.server import Server
-from server.tracking_results_pb2 import NormalizedLandmark, TrackingResult
+from serverlib.server import Server
+from serverlib.cl_args_handler import ClArgsHandler
+from serverlib.tracking_results_pb2 import NormalizedLandmark, TrackingResult
 
 print('Start of program')
 

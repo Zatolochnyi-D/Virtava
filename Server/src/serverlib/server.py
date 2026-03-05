@@ -14,8 +14,6 @@ class Server:  # TODO: add logger maybe? Look up how to use one first.
             self._broadcast_socket.send(result.SerializeToString())
         except zmq.ZMQError:
             print('socket closed error') # TODO: look up how to properly detect socket closed on sending.
-                                         # TODO: apparently ZMQ sockets are not thread-safe, and I should use send on the same thread where socket is
-                                         #       created. So look into polling, non-blocking sockets and queues.
 
     def stop(self):
         self._broadcast_socket.close()

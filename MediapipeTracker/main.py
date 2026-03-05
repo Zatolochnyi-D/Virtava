@@ -6,7 +6,7 @@ from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
 from mediapipe import Image, ImageFormat
 from serverlib.server import Server
 from serverlib.cl_args_handler import ClArgsHandler
-from serverlib.tracking_results_pb2 import NormalizedLandmark, TrackingResult
+from serverlib.tracking_results_builder import TrackingResultsBuilder, ArkitBlendshape
 
 print('Start of program')
 
@@ -40,24 +40,20 @@ while camera.isOpened() and running:
         break
     mp_image = Image(image_format = ImageFormat.SRGB, data = image)
     detection_result = detector.detect(mp_image)
-    result = TrackingResult()
+    result = TrackingResultsBuilder()
     detected_faces_count = len(detection_result.face_landmarks)
-    if not detected_faces_count:
-        result.trackingSucceded = False
-        # print('  Send failure')
-    else:
-        result.trackingSucceded = True
-        for detected_landmark in detection_result.face_landmarks[0]:
-            landmark = NormalizedLandmark(x = detected_landmark.x, y = detected_landmark.y, z = detected_landmark.z)
-            result.normalizedLandmarkList.append(landmark)
+    if detected_faces_count:
+        # print('  Send success')
+        result.set_tracking_succeded()
         for category in detection_result.face_blendshapes[0]:
             if category.category_name == '_neutral': continue
-            setattr(result.blendshapes, category.category_name, category.score) # TODO: not very safe thing, only reliable of belief that blendshape
-                                                                                #       names from documentation are the same inside detection results.
-                                                                                #       Find a better way to do it.
-        # print('  Send success')
+            # Add map from different naming conventions to camel case. Use this map to convert category name.
+            # result.set_blendshape(ArkitBlendshape.name_to_blendshape_map[category.category_name], category.score)
+    else:
+        pass
+        # print('  Send failure')
     
-    server.send(result)
+    server.send(result.build())
     
 camera.release()
 server.stop()

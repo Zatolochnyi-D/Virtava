@@ -1,0 +1,1 @@
+pyinstaller main.py --onedir --name mediapipe-tracking-server

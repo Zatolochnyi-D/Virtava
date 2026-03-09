@@ -1,1 +1,1 @@
-pyinstaller main.py --onedir --name mediapipe-tracking-server
+pyinstaller main.py --noconfirm --onedir --name mediapipe-tracking-server

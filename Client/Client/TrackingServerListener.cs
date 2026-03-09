@@ -44,12 +44,12 @@ namespace Univertracker.Client
 
         public SubprocessStarter()
         {
-            _process = Process.Start("/Users/denys/Desktop/Diploma/Project/MediapipeTracker/dist/main", "13133 /Users/denys/Desktop/Diploma/Project/MediapipeTracker/face_landmarker.task");
+            _process = Process.Start("/Users/denys/Desktop/Diploma/Project/MediapipeTracker/dist/mediapipe-tracking-server/mediapipe-tracking-server", "13133 /Users/denys/Desktop/Diploma/Project/MediapipeTracker/face_landmarker.task");
         }
 
         public void Dispose()
         {
-            _process.Close();
+            _process.CloseMainWindow();
         }
     }
 }

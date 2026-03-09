@@ -32,7 +32,6 @@ public class Connector2 : MonoBehaviour
                 Debug.Log("Tracking successful");
                 // var dev = maxRotationDeviation - _restPosition;
                 // _jawBone.localEulerAngles = _jawBone.localEulerAngles.With(z: _restPosition + dev * result.Blendshapes.JawOpen);
-
                 _animator.Apply(result);
             }
             else

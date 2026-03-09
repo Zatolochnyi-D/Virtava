@@ -49,6 +49,7 @@ while camera.isOpened() and running:
             if category.category_name == '_neutral': continue
             # Add map from different naming conventions to camel case. Use this map to convert category name.
             # result.set_blendshape(ArkitBlendshape.name_to_blendshape_map[category.category_name], category.score)
+            setattr(result._results.blendshapes, category.category_name, category.score)
     else:
         pass
         # print('  Send failure')

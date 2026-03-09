@@ -1332,6 +1332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArkitBlendshapesAnimatable
   _renderer: {fileID: 1612987647}
+  _namingConvetionsMapJson: {fileID: 4900000, guid: 84298728e09b34cdb8c53e7da746a04b, type: 3}
 --- !u!1 &1642027999
 GameObject:
   m_ObjectHideFlags: 0

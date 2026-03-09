@@ -11,14 +11,14 @@ public class ArkitBlendshapesAnimatable : MonoBehaviour, IArkitBlendshapesAnimat
 
     void Awake()
     {
-        // _blendshapeIndexMap = new();
+        _blendshapeIndexMap = new();
 
-        // var mesh = _renderer.sharedMesh;
-        // for (int i = 0; i < mesh.blendShapeCount; i++)
-        // {
-        //     var name = mesh.GetBlendShapeName(i);
-        //     _blendshapeIndexMap[ArkitBlendshapes.GetBlendshape(name)] = i;
-        // }
+        var mesh = _renderer.sharedMesh;
+        for (int i = 0; i < mesh.blendShapeCount; i++)
+        {
+            var name = mesh.GetBlendShapeName(i);
+            _blendshapeIndexMap[ArkitBlendshapes.GetBlendshape(name)] = i;
+        }
 
         // _excludeFromAnimation = ArkitBlendshapes.BlendshapesList.Where(x => !_blendshapeIndexMap.TryGetValue(x, out _));
         // foreach (var blendshape in _excludeFromAnimation)

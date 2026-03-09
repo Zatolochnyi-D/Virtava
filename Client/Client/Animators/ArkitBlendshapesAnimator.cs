@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace Univertracker.Client
 {
     public class ArkitBlendshapesAnimator
@@ -9,12 +11,11 @@ namespace Univertracker.Client
             _animatable = arkitBlendshapesAnimatable;
         }
 
-        // TODO: define behaviour when some of blendshapes are missing.
-        public void Apply(TrackingResult result)
+        public void Apply(TrackingResult result, bool omitMissingBlendshapes = true)
         {
-            foreach (var blendshape in ArkitBlendshapes.BlendshapesList)
+            foreach (var blendshape in ArkitBlendshapes.BlendshapesList.Except(_animatable.ExcludedFromAnimation))
             {
-                _animatable.Apply(blendshape, result.GetBlendshape(blendshape));
+                _animatable.Apply(blendshape, result.GetBlendshape(blendshape), omitMissingBlendshapes);
             }
         }
     }

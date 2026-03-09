@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using Univertracker.Client;
@@ -10,7 +11,8 @@ public class ArkitBlendshapesAnimatable : MonoBehaviour, IArkitBlendshapesAnimat
 
     private Dictionary<string, string> _namingConventionsMap;
     private Dictionary<ArkitBlendshape, int> _blendshapeIndexMap;
-    private IEnumerable<ArkitBlendshape> _excludeFromAnimation;
+
+    public IEnumerable<ArkitBlendshape> ExcludedFromAnimation => Enumerable.Empty<ArkitBlendshape>();
 
     void Awake()
     {
@@ -23,18 +25,18 @@ public class ArkitBlendshapesAnimatable : MonoBehaviour, IArkitBlendshapesAnimat
             var name = mesh.GetBlendShapeName(i);
             _blendshapeIndexMap[ArkitBlendshapes.GetBlendshape(name, _namingConventionsMap)] = i;
         }
-
-        // _excludeFromAnimation = ArkitBlendshapes.BlendshapesList.Where(x => !_blendshapeIndexMap.TryGetValue(x, out _));
-        // foreach (var blendshape in _excludeFromAnimation)
-        // {
-        //     Debug.LogWarning($"{blendshape} was not present on model.");
-        // }
     }
 
-    public void Apply(ArkitBlendshape blendshape, float value)
+    public void Apply(ArkitBlendshape blendshape, float value, bool omitIfMissing = true)
     {
-        // if (_excludeFromAnimation.Contains(blendshape))
-        //     return;
-        _renderer.SetBlendShapeWeight(_blendshapeIndexMap[blendshape], value * 100f);
+        if (omitIfMissing)
+        {
+            if (_blendshapeIndexMap.TryGetValue(blendshape, out var index))
+                _renderer.SetBlendShapeWeight(index, value * 100f);
+        }
+        else
+        {
+            _renderer.SetBlendShapeWeight(_blendshapeIndexMap[blendshape], value * 100f);
+        }
     }
 }

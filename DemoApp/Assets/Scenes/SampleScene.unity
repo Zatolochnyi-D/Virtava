@@ -968,7 +968,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8228612424264241770, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
       propertyPath: m_LocalPosition.x
@@ -985,13 +985,41 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1263918559}
   m_SourcePrefab: {fileID: 100100000, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
+--- !u!1 &1263918556 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
+  m_PrefabInstance: {fileID: 1263918555}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1263918557 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2027569866299962847, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
   m_PrefabInstance: {fileID: 1263918555}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1263918558 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8879528566716807029, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
+  m_PrefabInstance: {fileID: 1263918555}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1263918559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263918556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abaf428864d064775b3d32774068239e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoneAnimatable
+  _rigRoot: {fileID: 1263918558}
+  _differenceJson: {fileID: 4900000, guid: a0969ae29a94c465f9738a75d8c55849, type: 3}
+  _namingConvetionsMapJson: {fileID: 4900000, guid: 84298728e09b34cdb8c53e7da746a04b, type: 3}
 --- !u!1 &1483464791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,6 +1329,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: arkit_blendshapes
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2b3bae7a11f46436a881ce3e7364918a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1460,6 +1492,7 @@ MonoBehaviour:
   _restPosition: 122.522
   maxRotationDeviation: 142.24
   _arkitBlendshapesAnimatable: {fileID: 1612987648}
+  _boneAnimatable: {fileID: 1263918559}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

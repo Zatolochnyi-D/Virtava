@@ -13,7 +13,7 @@ namespace Univertracker.Client
 
         public void Apply(TrackingResult result, bool omitMissingBlendshapes = true)
         {
-            foreach (var blendshape in ArkitBlendshapes.BlendshapesList.Except(_animatable.ExcludedFromAnimation))
+            foreach (var blendshape in ArkitBlendshapes.BlendshapesList)
             {
                 _animatable.Apply(blendshape, result.GetBlendshape(blendshape), omitMissingBlendshapes);
             }

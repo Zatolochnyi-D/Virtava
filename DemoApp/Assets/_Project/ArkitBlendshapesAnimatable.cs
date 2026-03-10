@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using Univertracker.Client;
@@ -11,8 +10,6 @@ public class ArkitBlendshapesAnimatable : MonoBehaviour, IArkitBlendshapesAnimat
 
     private Dictionary<string, string> _namingConventionsMap;
     private Dictionary<ArkitBlendshape, int> _blendshapeIndexMap;
-
-    public IEnumerable<ArkitBlendshape> ExcludedFromAnimation => Enumerable.Empty<ArkitBlendshape>();
 
     void Awake()
     {

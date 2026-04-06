@@ -13,7 +13,7 @@ public class Connector : MonoBehaviour
     private TrackingServerListener _tracker;
     private ConcurrentQueue<TrackingResult> _queue; // TODO: Check out Volatile and Interlock.
     private ArkitBlendshapesAnimator _animator;
-    private SubprocessStarter _subprocessStarter;
+    // private SubprocessStarter _subprocessStarter;
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class Connector : MonoBehaviour
         _tracker = new TrackingServerListener();
         _tracker.OnResultReceived += ProcessResults;
         _animator = new(_boneAnimatable);
-        _subprocessStarter = new();
+        // _subprocessStarter = new();
     }
 
     void Update()
@@ -31,7 +31,7 @@ public class Connector : MonoBehaviour
             if (result.TrackingSucceded)
             {
                 Debug.Log("Tracking successful");
-                _animator.Apply(result);
+                // _animator.Apply(result);
             }
             else
             {
@@ -43,7 +43,7 @@ public class Connector : MonoBehaviour
     void OnDestroy()
     {
         _tracker.Dispose();
-        _subprocessStarter.Dispose();
+        // _subprocessStarter.Dispose();
     }
 
     private void ProcessResults(TrackingResult result)

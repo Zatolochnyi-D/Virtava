@@ -18,12 +18,12 @@ namespace Univertracker.Client
         public TrackingServerListener()
         {
             _poller = new NetMQPoller();
-            _socket = new SubscriberSocket("tcp://localhost:13133"); // TODO: move connection string to something more configurable.
+            _socket = new SubscriberSocket("tcp://localhost:14210"); // TODO: move connection string to something more configurable.
             _socket.SubscribeToAnyTopic();
             _socket.ReceiveReady += (sender, args) =>
             {
                 // TODO: test any errors that may happen here.
-                var messageBytes = args.Socket.ReceiveFrameBytes(); // TODO:  TODO: double check what docs meant under using TryReceive.
+                var messageBytes = args.Socket.ReceiveFrameBytes(); // TODO: double check what docs meant under using TryReceive.
                 var message = TrackingResult.Parser.ParseFrom(messageBytes);
                 OnResultReceived?.Invoke(message);
             };

@@ -6,9 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "server"
 version = "0.0.1"
 dependencies = [
-  "grpcio-tools==1.62.3",
   "pyzmq==27.1.0",
-  "protobuf==4.25.8",
+  "protobuf",
 ]
 requires-python = ">=3.9"
 

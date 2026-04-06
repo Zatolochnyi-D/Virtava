@@ -4,17 +4,17 @@ from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
 from mediapipe import Image, ImageFormat
-from serverlib.server import Server
-from serverlib.cl_args_handler import ClArgsHandler
-from serverlib.tracking_results_builder import TrackingResultsBuilder, ArkitBlendshape
+from virtava_server.tracker_server import TrackerServer
+from tracking_results_pb2 import TrackingResult
+
+port = 14210
+model_asset_path = 'face_landmarker.task'
 
 print('Start of program')
 
-parameters = ClArgsHandler()
+tracker_server = TrackerServer(port)
 
-server = Server(parameters.port)
-
-base_options = BaseOptions(model_asset_path = parameters.model_asset_path)
+base_options = BaseOptions(model_asset_path = model_asset_path)
 options = FaceLandmarkerOptions(base_options = base_options,
                                 output_face_blendshapes = True,
                                 output_facial_transformation_matrixes = True,
@@ -28,7 +28,6 @@ def stop():
 signal.signal(signal.SIGINT, lambda x, y: stop())
 signal.signal(signal.SIGTERM, lambda x, y: stop())
 
-
 camera = cv2.VideoCapture(0) # TODO: move camera index injection up.
                              # TODO: it is not guaranteed for camera to be found. Handle possible error.
                              # TODO: if system restricts access to camera, app should ask for permission first. OpenCV asks for permission
@@ -40,23 +39,22 @@ while camera.isOpened() and running:
         break
     mp_image = Image(image_format = ImageFormat.SRGB, data = image)
     detection_result = detector.detect(mp_image)
-    result = TrackingResultsBuilder()
+    result = TrackingResult()
     detected_faces_count = len(detection_result.face_landmarks)
     if detected_faces_count:
-        # print('  Send success')
-        result.set_tracking_succeded()
+        print('  Send success')
+        result.trackingSucceded = True
         for category in detection_result.face_blendshapes[0]:
             if category.category_name == '_neutral': continue
             # Add map from different naming conventions to camel case. Use this map to convert category name.
             # result.set_blendshape(ArkitBlendshape.name_to_blendshape_map[category.category_name], category.score)
-            setattr(result._results.blendshapes, category.category_name, category.score)
+            setattr(result.blendshapes, category.category_name, category.score)
     else:
-        pass
-        # print('  Send failure')
+        print('  Send failure')
     
-    server.send(result.build())
+    tracker_server.send(result)
     
 camera.release()
-server.stop()
+tracker_server.stop()
 
 print('End of program')

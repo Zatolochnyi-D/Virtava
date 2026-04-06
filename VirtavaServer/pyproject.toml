@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "server"
+name = "virtava_server"
 version = "0.0.1"
 dependencies = [
   "pyzmq==27.1.0",

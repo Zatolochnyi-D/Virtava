@@ -14,10 +14,11 @@ class ConnectionsTrackingList:
     def connection_exists(self, id: int):
         return id in self._connections.keys()
     
-    def create_connection(self):
+    def create_connection(self) -> int:
         self._connections[self._nextPropriateId] = int(time())
         self._nextPropriateId += 1
         self._count += 1
+        return self._nextPropriateId - 1
 
     def remove_connection(self, id: int):
         if self.connection_exists(id):

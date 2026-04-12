@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message Ping {
+    int32 id = 1;
+    bool isLast = 2;
+}

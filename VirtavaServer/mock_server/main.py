@@ -16,21 +16,21 @@ def unlock():
     global lock
     lock.set()
 
-is_running = False
+is_running = False # This one crashes badly.
 def start():
-    global is_running
-    is_running = True
+    # global is_running
+    # is_running = True
     print('starting sending messages')
-    while is_running:
-        server.send(Ping(id = 42))
+    # while is_running:
+    #     server.send(Ping(id = 42))
 def stop():
     global is_running
     print('stopping sending messages')
-    is_running = False
+    # is_running = False
 
 server.first_listener_connected.subscribe(start)
 server.no_listeners_left.subscribe(stop)
 
 lock.wait()
-server.stop() # throws error
+server.stop()
 print('program closed')

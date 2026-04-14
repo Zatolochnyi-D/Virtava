@@ -1,1 +1,0 @@
-protoc --proto_path=. --python_out=src/virtava_server/ --pyi_out=src/virtava_server/ heartbeatMessages.proto

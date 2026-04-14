@@ -3,7 +3,7 @@ from threading import Thread, Event as ThreadEvent
 from google.protobuf.message import Message
 from virtava_server.connections_tracking_list import ConnectionsTrackingList
 from virtava_server.interthreaded_event import InterthreadedEvent, execute_on_new_thread
-from virtava_server.heartbeatMessages_pb2 import Ping
+from virtava_server.ping_pb2 import Ping
 
 # TODO: as proto messages are in use now, restrict protobuf version <---
 class TrackerServer:  # TODO: add logger maybe? Look up how to use one first.

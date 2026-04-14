@@ -3,4 +3,5 @@ Name: virtava_server
 Version: 0.0.1
 Requires-Python: >=3.9
 Requires-Dist: pyzmq==27.1.0
-Requires-Dist: protobuf
+Requires-Dist: protobuf<5,>=4.25.3
+Requires-Dist: grpcio-tools

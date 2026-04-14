@@ -1,9 +1,9 @@
 pyproject.toml
 src/virtava_server/__init__.py
 src/virtava_server/connections_tracking_list.py
-src/virtava_server/event.py
 src/virtava_server/heartbeatMessages_pb2.py
 src/virtava_server/heartbeatMessages_pb2.pyi
+src/virtava_server/interthreaded_event.py
 src/virtava_server/tracker_server.py
 src/virtava_server.egg-info/PKG-INFO
 src/virtava_server.egg-info/SOURCES.txt

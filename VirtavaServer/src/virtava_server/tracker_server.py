@@ -2,16 +2,16 @@ import zmq
 from threading import Thread, Event as ThreadEvent
 from google.protobuf.message import Message
 from virtava_server.connections_tracking_list import ConnectionsTrackingList
-from virtava_server.interthreaded_event import InterthreadedEvent
+from virtava_server.interthreaded_event import InterthreadedEvent, execute_on_new_thread
 from virtava_server.heartbeatMessages_pb2 import Ping
 
 # TODO: as proto messages are in use now, restrict protobuf version <---
 class TrackerServer:  # TODO: add logger maybe? Look up how to use one first.
     __POLLING_TIMEOUT = 500
 
-    def __init__(self, broadcast_port: int, heartbeat_port: int, connection_timeout: int):
-        self.first_listener_connected = InterthreadedEvent() # TODO: allow to pass dispatcher here, maybe?
-        self.no_listeners_left = InterthreadedEvent() # TODO: allow to pass dispatcher here, maybe?
+    def __init__(self, broadcast_port: int, heartbeat_port: int, connection_timeout: int, dispatcher = execute_on_new_thread):
+        self.first_listener_connected = InterthreadedEvent(dispatcher)
+        self.no_listeners_left = InterthreadedEvent(dispatcher)
 
         self.__context = zmq.Context()
 
@@ -65,7 +65,7 @@ class TrackerServer:  # TODO: add logger maybe? Look up how to use one first.
 
         reply_socket.close()
             
-    def send(self, result: Message):
+    def send(self, result: Message): # TODO: Look up if this thing is good enough. Like, can I just directly pass things to send to socket, ot should I wrap it with thread or something?
         try:
             self.__broadcast_socket.send(result.SerializeToString())
         except zmq.ZMQError:

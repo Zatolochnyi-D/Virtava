@@ -1,2 +1,2 @@
 from .tracker_server import TrackerServer
-from .interthreaded_event import InterthreadedEvent
+from .interthreaded_event import InterthreadedEvent, execute_on_new_thread

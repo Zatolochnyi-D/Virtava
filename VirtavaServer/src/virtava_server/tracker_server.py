@@ -5,8 +5,7 @@ from virtava_server.connections_tracking_list import ConnectionsTrackingList
 from virtava_server.interthreaded_event import InterthreadedEvent
 from virtava_server.heartbeatMessages_pb2 import Ping
 
-
-# TODO: as proto messages are in use now, restrict protobuf version
+# TODO: as proto messages are in use now, restrict protobuf version <---
 class TrackerServer:  # TODO: add logger maybe? Look up how to use one first.
     __POLLING_TIMEOUT = 500
 
@@ -78,5 +77,9 @@ class TrackerServer:  # TODO: add logger maybe? Look up how to use one first.
         self.__heartbeat_thread.join()
         self.__context.term()
 
-# Make on PROPER client send close request to server properly, without interfering with REQ socket cycle.
-# Move this lib to proper server.
+
+
+
+# Final TODO: Make on PROPER client send close request to server properly, without interfering with REQ socket cycle.
+# Final TODO: Move this lib to proper server.
+# Mb make mock server to test actual client faster.

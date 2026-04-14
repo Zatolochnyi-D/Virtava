@@ -1,7 +1,7 @@
 from threading import Event
 from signal import signal, SIGINT, SIGTERM
 from virtava_server.heartbeatMessages_pb2 import Ping
-from virtava_server.tracker_server import TrackerServer
+from virtava_server import TrackerServer
 
 port = 14210
 

@@ -1,7 +1,10 @@
+import logging
 from threading import Event
 from signal import signal, SIGINT, SIGTERM
 from virtava_server.ping_pb2 import Ping
 from virtava_server import TrackerServer
+
+logging.basicConfig(level = logging.INFO)
 
 port = 14210
 

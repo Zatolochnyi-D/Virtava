@@ -30,7 +30,7 @@ class ConnectionsTrackingList:
             self.__logger.debug("Removed connection with id %i.", id)
         else:
             self.__logger.debug("Tried to remove connection with id %i, but such connection was not present.", self.__nextPropriateId - 1)
-            raise Exception("Cannot remove id not present in the connections list.")
+            raise ValueError("Cannot remove id not present in the connections list.")
         
     def update_connection_timestamp(self, id: int):
         if self.connection_exists(id):
@@ -38,7 +38,7 @@ class ConnectionsTrackingList:
             self.__logger.debug("Updated connection's with id %i timestamp.", id)
         else:
             self.__logger.debug("Tried to updated connection's with id %i timestamp, but such connection was not present.", id)
-            raise Exception("Cannot update id not present in the connections list")
+            raise ValueError("Cannot update id not present in the connections list")
         
     def remove_timed_out_connections(self, timeout: int) -> int:
         timed_out_ids = []

@@ -1,6 +1,7 @@
 pyproject.toml
 src/virtava_server/__init__.py
 src/virtava_server/connections_tracking_list.py
+src/virtava_server/exceptions.py
 src/virtava_server/interthreaded_event.py
 src/virtava_server/ping_pb2.py
 src/virtava_server/ping_pb2.pyi

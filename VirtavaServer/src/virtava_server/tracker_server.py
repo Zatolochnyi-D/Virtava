@@ -5,8 +5,9 @@ from google.protobuf.message import Message
 from virtava_server.connections_tracking_list import ConnectionsTrackingList
 from virtava_server.interthreaded_event import InterthreadedEvent, execute_on_new_thread
 from virtava_server.ping_pb2 import Ping
+from virtava_server.exceptions import PortInUseException
 
-
+# May throw PortInUseException when either broadcast_port or heartbeat_port are already used by someone else.
 class TrackerServer:
     __POLLING_TIMEOUT = 500
 
@@ -19,11 +20,23 @@ class TrackerServer:
 
         self.__context = zmq.Context()
 
-        self.__broadcast_socket = self.__context.socket(zmq.PUB) # TODO: Handle possible errors. Check ZMQ manual for any.
-        self.__broadcast_socket.bind(f'tcp://localhost:{broadcast_port}') # TODO: Handle possible errors. Check ZMQ manual for any.
-
-        heartbeat_socket = self.__context.socket(zmq.REP) # TODO: Handle possible errors. Check ZMQ manual for any.
-        heartbeat_socket.bind(f'tcp://localhost:{heartbeat_port}') # TODO: Handle possible errors. Check ZMQ manual for any.
+        self.__broadcast_socket = self.__context.socket(zmq.PUB)
+        try:
+            self.__broadcast_socket.bind(f'tcp://localhost:{broadcast_port}')
+        except zmq.ZMQError as e:
+            if e.errno == zmq.EADDRINUSE:
+                raise PortInUseException(f'Broadcast port {broadcast_port} is already in use.') from e
+            else:
+                raise
+        
+        heartbeat_socket = self.__context.socket(zmq.REP)
+        try:
+            heartbeat_socket.bind(f'tcp://localhost:{heartbeat_port}')
+        except zmq.ZMQError as e:
+            if e.errno == zmq.EADDRINUSE:
+                raise PortInUseException(f'Heartbeat port {heartbeat_port} is already in use.') from e
+            else:
+                raise
         self.__heartbeat_thread_cancellation = ThreadEvent()
         self.__heartbeat_thread = Thread(target = self.__heartbeat_indefinitely, args = [heartbeat_socket, connection_timeout])
         self.__heartbeat_thread.start()
@@ -89,10 +102,3 @@ class TrackerServer:
         self.__heartbeat_thread.join()
         self.__context.term() # TODO: Handle possible errors. Check ZMQ manual for any.
         self.__logger.info("TrackerServer closed.")
-
-
-
-
-# Final TODO: Make on PROPER client send close request to server properly, without interfering with REQ socket cycle.
-# Final TODO: Move this lib to proper server.
-# Mb make mock server to test actual client faster.

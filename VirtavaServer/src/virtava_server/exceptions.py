@@ -1,0 +1,2 @@
+class PortInUseException(Exception):
+    pass

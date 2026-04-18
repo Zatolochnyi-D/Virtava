@@ -24,6 +24,7 @@ class TrackerServer:
         self.__context = zmq.Context()
 
         self.__broadcast_socket = self.__context.socket(zmq.PUB)
+        self.__broadcast_socket.setsockopt(zmq.CONFLATE, 1)
         self.__broadcast_socket.setsockopt(zmq.LINGER, 0)
         try:
             self.__broadcast_socket.bind(f'tcp://localhost:{broadcast_port}')
@@ -95,7 +96,7 @@ class TrackerServer:
             
     def send(self, result: Message):
         if not self.__server_stopped.is_set():
-            self.__broadcast_socket.send(result.SerializeToString()) # TODO: Look up how PUB socket operates (if it blocks and when), how HWM works, is it possible for this socket to block, what happens when HWM overflows etc.
+            self.__broadcast_socket.send(result.SerializeToString())
         else:
             raise ServerClosedException("Server is closed and cannot send more messages")
 

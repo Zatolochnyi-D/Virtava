@@ -49,5 +49,5 @@ class ConnectionsTrackingList:
             self.remove_connection(id)
         self.__logger.debug("Performed removal of timed out connections.")
         if timed_out_ids:
-            self.__logger.debug("Following ids were removed: %s.", ', '.join(timed_out_ids))
+            self.__logger.debug("Following ids were removed: %s.", ', '.join([str(id) for id in timed_out_ids]))
         return len(timed_out_ids)

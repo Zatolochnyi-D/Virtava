@@ -12,7 +12,7 @@ from virtava_server.exceptions import PortInUseException, ServerClosedException
 class TrackerServer:
     __POLLING_TIMEOUT = 500
 
-    def __init__(self, broadcast_port: int, heartbeat_port: int, connection_timeout: int, dispatcher = execute_on_new_thread):
+    def __init__(self, broadcast_port: int, heartbeat_port: int, connection_timeout = 5, dispatcher = execute_on_new_thread):
         self.__logger = logging.getLogger(__name__)
         self.__logger.debug("TrackerServer began initialization.")
 

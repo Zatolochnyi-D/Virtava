@@ -75,7 +75,7 @@ def stop_tracking():
     print('stop requested.')
     tracking_event.set()
 
-tracker_server = TrackerServer(port, port + 1, 5)  # TODO: add default value for timeout.
+tracker_server = TrackerServer(port, port + 1)  # TODO: add default value for timeout.
 tracker_server.first_listener_connected.subscribe(start_tracking) # TODO try queue with dispatcher instead of this multithreaded chaos.
 tracker_server.no_listeners_left.subscribe(stop_tracking)
 

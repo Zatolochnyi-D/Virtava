@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace Univertracker.Client
+namespace Virtava.Client
 {
     public class ArkitBlendshapesAnimator
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Univertracker.Client
+namespace Virtava.Client
 {
     public struct Vector
     {

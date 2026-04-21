@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using NetMQ;
 using NetMQ.Sockets;
 
-namespace Univertracker.Client
+namespace Virtava.Client
 {
     public class TrackingServerListener : IDisposable
     {
@@ -13,43 +12,34 @@ namespace Univertracker.Client
         public event Action<TrackingResult>? OnResultReceived; // TODO: check out what SynchronizationContext is.
 
         private NetMQPoller _poller;
-        private SubscriberSocket _socket;
+        private SubscriberSocket _broadcastSocket;
+        private RequestSocket _heartbeatSocket;
 
-        public TrackingServerListener()
+        public TrackingServerListener(int broadcastPort, int heartbeatPort)
         {
             _poller = new NetMQPoller();
-            _socket = new SubscriberSocket("tcp://localhost:14210"); // TODO: move connection string to something more configurable.
-            _socket.SubscribeToAnyTopic();
-            _socket.ReceiveReady += (sender, args) =>
+            _broadcastSocket = new SubscriberSocket($"tcp://localhost:{broadcastPort}");
+            _broadcastSocket.SubscribeToAnyTopic();
+            _broadcastSocket.ReceiveReady += (sender, args) =>
             {
                 // TODO: test any errors that may happen here.
-                var messageBytes = args.Socket.ReceiveFrameBytes(); // TODO: double check what docs meant under using TryReceive.
+                var messageBytes = args.Socket.ReceiveFrameBytes();
                 var message = TrackingResult.Parser.ParseFrom(messageBytes);
                 OnResultReceived?.Invoke(message);
             };
-            _poller.Add(_socket);
+            _heartbeatSocket = new RequestSocket($"tcp://localhost:{heartbeatPort}");
+            _heartbeatSocket.ReceiveReady += (sender, args) =>
+            {
+                
+            };
+            _poller.Add(_broadcastSocket);
             _poller.RunAsync();
         }
 
         public void Dispose()
         {
             _poller.Dispose();
-            _socket.Dispose(); // TODO: Make sure socket is closed properly and that there will be no reads afterward.
-        }
-    }
-
-    public class SubprocessStarter : IDisposable
-    {
-        private Process _process;
-
-        public SubprocessStarter()
-        {
-            _process = Process.Start("/Users/denys/Desktop/Diploma/Project/MediapipeTracker/dist/mediapipe-tracking-server/mediapipe-tracking-server", "13133 /Users/denys/Desktop/Diploma/Project/MediapipeTracker/face_landmarker.task");
-        }
-
-        public void Dispose()
-        {
-            _process.CloseMainWindow();
+            _broadcastSocket.Dispose(); // TODO: Make sure socket is closed properly and that there will be no reads afterward.
         }
     }
 }

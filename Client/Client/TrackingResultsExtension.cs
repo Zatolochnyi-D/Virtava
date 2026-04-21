@@ -1,6 +1,6 @@
 using System;
 
-namespace Univertracker.Client
+namespace Virtava.Client
 {
     public static class TrackingResultsExtension
     {

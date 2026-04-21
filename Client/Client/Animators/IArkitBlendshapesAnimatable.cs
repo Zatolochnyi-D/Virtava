@@ -1,4 +1,4 @@
-namespace Univertracker.Client
+namespace Virtava.Client
 {
     public interface IArkitBlendshapesAnimatable
     {

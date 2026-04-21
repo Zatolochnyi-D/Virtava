@@ -5,20 +5,18 @@ from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
 from mediapipe import Image, ImageFormat
-from src.tracking_results_pb2 import TrackingResult
+from tracking_results_pb2 import TrackingResult
 from virtava_server import TrackerServer
 
 port = 14210
 model_asset_path = "face_landmarker.task"
 
-print("Start of program")
-
-base_options = BaseOptions(model_asset_path=model_asset_path)
+base_options = BaseOptions(model_asset_path = model_asset_path)
 options = FaceLandmarkerOptions(
-    base_options=base_options,
-    output_face_blendshapes=True,
-    output_facial_transformation_matrixes=True,
-    num_faces=1,
+    base_options = base_options,
+    output_face_blendshapes = True,
+    output_facial_transformation_matrixes = True,
+    num_faces = 1,
 )
 detector = FaceLandmarker.create_from_options(options)
 
@@ -49,7 +47,7 @@ def start_tracking():
         if not success:
             print("Image read unsuccessful")
             break
-        mp_image = Image(image_format=ImageFormat.SRGB, data=image)
+        mp_image = Image(image_format = ImageFormat.SRGB, data = image)
         detection_result = detector.detect(mp_image)
         result = TrackingResult()
         detected_faces_count = len(detection_result.face_landmarks)
@@ -59,13 +57,14 @@ def start_tracking():
             for category in detection_result.face_blendshapes[0]:
                 if category.category_name == "_neutral":
                     continue
-                # TODO: Add map from different naming conventions to camel case. Use this map to convert category name.
-                # result.set_blendshape(ArkitBlendshape.name_to_blendshape_map[category.category_name], category.score)
-                setattr(result.blendshapes, category.category_name, category.score)
+                setattr(result.blendshapes, category.category_name, category.score) # TODO: replace setattr with something... less dynamic.
+                                                                                    # TODO: Add map from different naming conventions 
+                                                                                    #       to camel case. Use this map to convert category name.
         else:
+            result.trackingSucceded = False
             print("  Send failure")
 
-        # tracker_server.send(result)
+        tracker_server.send(result) # TODO: this one can be called after server is closed. Work better on order of operations.
 
     camera.release()
     print('tracking loop stopped.')
@@ -75,8 +74,9 @@ def stop_tracking():
     print('stop requested.')
     tracking_event.set()
 
-tracker_server = TrackerServer(port, port + 1)  # TODO: add default value for timeout.
-tracker_server.first_listener_connected.subscribe(start_tracking) # TODO try queue with dispatcher instead of this multithreaded chaos.
+tracker_server = TrackerServer(port, port + 1)
+tracker_server.first_listener_connected.subscribe(start_tracking) # TODO: try queue with dispatcher instead of this multithreaded chaos.
+                                                                  #       I may need to add possibility to add different dispatchers for both events.
 tracker_server.no_listeners_left.subscribe(stop_tracking)
 
 stop_event.wait()

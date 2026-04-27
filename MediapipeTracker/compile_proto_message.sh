@@ -1,1 +1,0 @@
-python -m grpc_tools.protoc --proto_path=../ --python_out=. --pyi_out=. ../tracking_results.proto 

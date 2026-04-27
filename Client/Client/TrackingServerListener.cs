@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Threading;
 using Google.Protobuf;
 using NetMQ;
 using NetMQ.Sockets;
 
 namespace Virtava.Client
 {
-    public class TrackingServerListener : IDisposable
+    public class TrackingServerListener<T> : IDisposable where T : IMessage<T>, new()
     {
         /// <summary>
         /// Runs from background thread.
         /// </summary>
-        public event Action<TrackingResult>? OnResultReceived; // TODO: check out what SynchronizationContext is.
+        public event Action<T>? OnResultReceived;
 
-        private NetMQPoller _poller;
-        private SubscriberSocket _broadcastSocket;
-        private RequestSocket _heartbeatSocket;
+        private readonly MessageParser<T> _messageParser;
+        private readonly NetMQPoller _poller;
+        private readonly SubscriberSocket _broadcastSocket;
+        private readonly RequestSocket _heartbeatSocket;
         private int _listenerId = -1;
 
         public TrackingServerListener(int broadcastPort, int heartbeatPort, int millisecondsPerPing = 1000)
         {
+            _messageParser = new MessageParser<T>(() => new T());
             _poller = new NetMQPoller();
 
             _broadcastSocket = new SubscriberSocket($"tcp://localhost:{broadcastPort}");
@@ -28,7 +29,7 @@ namespace Virtava.Client
             {
                 // TODO: test any errors that may happen here.
                 var messageBytes = args.Socket.ReceiveFrameBytes();
-                var message = TrackingResult.Parser.ParseFrom(messageBytes);
+                var message = _messageParser.ParseFrom(messageBytes);
                 OnResultReceived?.Invoke(message);
             };
             _heartbeatSocket = new RequestSocket($"tcp://localhost:{heartbeatPort}");
@@ -36,16 +37,16 @@ namespace Virtava.Client
             var timer = new NetMQTimer(millisecondsPerPing);
             timer.Elapsed += (sender, args) =>
             {
-                var ping = new Ping()
+                var ping = new Ping() // TODO: cache it.
                 {
-                    Id = Volatile.Read(ref _listenerId),
+                    Id = _listenerId,
                     IsLast = false,
                 };
-                _heartbeatSocket.SendFrame(ping.ToByteArray());
+                _heartbeatSocket.SendFrame(ping.ToByteArray()); // TODO: handle when server started after this send is called. This send will block, and reply will never be sent.
                 Console.WriteLine("Sent!");
                 ping = Ping.Parser.ParseFrom(_heartbeatSocket.ReceiveFrameBytes());
                 Console.WriteLine($"Received! {ping.Id}");
-                Volatile.Write(ref _listenerId, ping.Id);
+                _listenerId = ping.Id; // TODO: process other scenarios, like id = -1, what means that server no longer knows about us.
             };
 
             _poller.Add(_broadcastSocket);
@@ -57,6 +58,7 @@ namespace Virtava.Client
         {
             _poller.Dispose();
             _broadcastSocket.Dispose(); // TODO: Make sure socket is closed properly and that there will be no reads afterward.
+            _heartbeatSocket.Dispose();
         }
     }
 }

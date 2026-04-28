@@ -64,7 +64,8 @@ def start_tracking():
             result.trackingSucceded = False
             print("  Send failure")
 
-        tracker_server.send(result) # TODO: this one can be called after server is closed. Work better on order of operations.
+        if not tracking_event.is_set():
+            tracker_server.send(result) # TODO: this one can be called after server is closed. Work better on order of operations.
 
     camera.release()
     print('tracking loop stopped.')

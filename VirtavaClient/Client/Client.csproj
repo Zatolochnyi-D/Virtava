@@ -10,4 +10,12 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PackageId>VirtavaClient</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>Denys Zatolochny</Authors>
+    <Company>Neutrals</Company>
+  </PropertyGroup>
+
+
 </Project>

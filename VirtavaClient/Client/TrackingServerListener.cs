@@ -6,12 +6,17 @@ using NetMQ.Sockets;
 
 namespace Virtava.Client
 {
+    // TODO: add logging.
     public class TrackingServerListener<T> : IDisposable where T : IMessage<T>, new()
     {
+        private static readonly TimeSpan GRACE_PERIOD = TimeSpan.FromSeconds(0.5);
+
         /// <summary> Event is fired on a background thread. </summary>
         public event Action<T>? OnResultReceived;
-        public event Action? OnConnectionEstablished; 
-        public event Action? OnConnectionLost; // TODO: Implement those.
+        /// <summary> Event is fired on a background thread. </summary>
+        public event Action? OnConnectionEstablished;
+        /// <summary> Event is fired on a background thread. </summary>
+        public event Action? OnConnectionLost;
 
         private Ping _ping;
         private int _listenerId;
@@ -23,7 +28,10 @@ namespace Virtava.Client
         private readonly NetMQPoller _poller;
         private readonly Thread _pollerThread;
 
-        public TrackingServerListener(int broadcastPort, int heartbeatPort, int millisecondsPerPing = 1000)
+        private readonly NetMQTimer _timeoutTimer;
+        private bool _connectedToTrackingServer = false;
+
+        public TrackingServerListener(int broadcastPort, int heartbeatPort, int millisecondsPerPing = 1000, int millisecondsToTimeout = 5000)
         {
             Console.WriteLine("Bleh");
 
@@ -43,10 +51,14 @@ namespace Virtava.Client
             var pingSendingTimer = new NetMQTimer(millisecondsPerPing); // Order is: wait -> action -> wait -> ...
             pingSendingTimer.Elapsed += (sender, args) => SendPing();
 
-            _heartbeatSocket.SendFrame(_ping.ToByteArray());
+            _timeoutTimer = new NetMQTimer(millisecondsToTimeout);
+            _timeoutTimer.Elapsed += (sender, args) => Timeout();
+            _timeoutTimer.Enable = false;
+
+            SendPing();
             Console.WriteLine("Sent initial ping.");
 
-            _poller = new NetMQPoller { _broadcastSocket, _heartbeatSocket, pingSendingTimer };
+            _poller = new NetMQPoller { _broadcastSocket, _heartbeatSocket, pingSendingTimer, _timeoutTimer };
             _pollerThread = new Thread(_poller.Run);
             _pollerThread.Start();
         }
@@ -63,7 +75,7 @@ namespace Virtava.Client
             Console.WriteLine("Sending ping.");
 
             _ping.Id = _listenerId;
-            if (_heartbeatSocket.HasOut) // HasOut actually is PollOut (if socket can send another message. For REQ it returns false after send until receive will be handled.
+            if (_heartbeatSocket.HasOut) // HasOut is PollOut (for REQ it is false after send until response arrive).
             {
                 _heartbeatSocket.SendFrame(_ping.ToByteArray());
                 Console.WriteLine("Ping sent!");
@@ -90,7 +102,30 @@ namespace Virtava.Client
                 _heartbeatSocket.SendFrame(_ping.ToByteArray());
             }
 
+            if (!_connectedToTrackingServer)
+            {
+                _connectedToTrackingServer = true;
+                OnConnectionEstablished?.Invoke();
+            }
+            _timeoutTimer.EnableAndReset();
             _listenerId = _ping.Id;
+        }
+
+        private void Timeout()
+        {
+            if (_connectedToTrackingServer)
+            {
+                _connectedToTrackingServer = false;
+                _timeoutTimer.Enable = false;
+                OnConnectionLost?.Invoke();
+            }
+        }
+
+        private void SendLastPing()
+        {
+            _ping.Id = _listenerId;
+            _ping.IsLast = true;
+            _heartbeatSocket.SendFrame(_ping.ToByteArray());
         }
 
         public void Dispose()
@@ -99,11 +134,17 @@ namespace Virtava.Client
             _pollerThread.Join();
             Console.WriteLine("Poller thread completely stopped.");
 
-            if (_heartbeatSocket.HasOut) // HasOut is true when server is dead or when Stop was called right in ping sending timer (ping was send but ReceiveReady wasn't processed already).
+            if (_heartbeatSocket.HasOut)
             {
-                _ping.Id = _listenerId;
-                _ping.IsLast = true;
-                _heartbeatSocket.SendFrame(_ping.ToByteArray()); // If we think server is dead, then no last message for it.
+                // HasOut is true when server is dead or when Stop was called right in ping sending timer (ping was send but ReceiveReady wasn't
+                // processed already).
+                SendLastPing();
+            }
+            else if (_connectedToTrackingServer && _heartbeatSocket.TryReceiveFrameBytes(GRACE_PERIOD, out _))
+            {
+                // If connection is present and socket is busy, response was just send before closure should arrive any second. Try to wait small amount
+                // of time, read response and send closing ping message. Consider server dead if no response ping arrive at the first place.
+                SendLastPing();
             }
 
             _broadcastSocket.Dispose();

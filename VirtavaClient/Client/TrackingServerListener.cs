@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Google.Protobuf;
 using NetMQ;
 using NetMQ.Sockets;
@@ -7,58 +8,78 @@ namespace Virtava.Client
 {
     public class TrackingServerListener<T> : IDisposable where T : IMessage<T>, new()
     {
-        /// <summary>
-        /// Event is fired from a background thread.
-        /// </summary>
+        /// <summary> Event is fired on a background thread. </summary>
         public event Action<T>? OnResultReceived;
+        public event Action? OnConnectionEstablished; 
+        public event Action? OnConnectionLost; // TODO: Implement those.
 
-        private readonly MessageParser<T> _messageParser;
-        private readonly NetMQPoller _poller;
+        private Ping _ping;
+        private int _listenerId;
+
         private readonly SubscriberSocket _broadcastSocket;
         private readonly RequestSocket _heartbeatSocket;
-        private int _listenerId = -1;
-        private Ping _ping = new Ping() { IsLast = false };
+        private readonly MessageParser<T> _messageParser;
+
+        private readonly NetMQPoller _poller;
+        private readonly Thread _pollerThread;
 
         public TrackingServerListener(int broadcastPort, int heartbeatPort, int millisecondsPerPing = 1000)
         {
-            _messageParser = new MessageParser<T>(() => new T());
-            _poller = new NetMQPoller();
+            Console.WriteLine("Bleh");
+
+            _ping = new Ping { Id = -1, IsLast = false };
+            _listenerId = _ping.Id;
 
             _broadcastSocket = new SubscriberSocket($"tcp://localhost:{broadcastPort}");
             _broadcastSocket.SubscribeToAnyTopic();
             _broadcastSocket.Options.ReceiveHighWatermark = 1;
-            _broadcastSocket.ReceiveReady += (sender, args) => ReceiveBroadcast(args.Socket);
+            _broadcastSocket.ReceiveReady += (sender, args) => ReceiveBroadcast();
 
             _heartbeatSocket = new RequestSocket($"tcp://localhost:{heartbeatPort}");
-            
-            var timer = new NetMQTimer(millisecondsPerPing);
-            timer.Elapsed += (sender, args) => DoPing();
-            var timer2 = new NetMQTimer(1500);
-            timer2.Elapsed += (sender, args) => Console.WriteLine("Ping");
+            _heartbeatSocket.ReceiveReady += (sender, args) => ReceivePing();
 
-            _poller.Add(_broadcastSocket);
-            _poller.Add(timer);
-            _poller.Add(timer2);
-            _poller.RunAsync();
+            _messageParser = new MessageParser<T>(() => new T());
+
+            var pingSendingTimer = new NetMQTimer(millisecondsPerPing); // Order is: wait -> action -> wait -> ...
+            pingSendingTimer.Elapsed += (sender, args) => SendPing();
+
+            _heartbeatSocket.SendFrame(_ping.ToByteArray());
+            Console.WriteLine("Sent initial ping.");
+
+            _poller = new NetMQPoller { _broadcastSocket, _heartbeatSocket, pingSendingTimer };
+            _pollerThread = new Thread(_poller.Run);
+            _pollerThread.Start();
         }
 
-        private void ReceiveBroadcast(NetMQSocket socket)
+        private void ReceiveBroadcast()
         {
-            // TODO: test any errors that may happen here.
-            var messageBytes = socket.ReceiveFrameBytes();
-            var message = _messageParser.ParseFrom(messageBytes);
+            var messageBytes = _broadcastSocket.ReceiveFrameBytes();
+            var message = _messageParser.ParseFrom(messageBytes); // TODO: We may accept message of a different type from what we expect.
             OnResultReceived?.Invoke(message);
         }
 
-        private void DoPing()
+        private void SendPing()
         {
-            Console.WriteLine("Starting ping process");
+            Console.WriteLine("Sending ping.");
 
             _ping.Id = _listenerId;
-            _heartbeatSocket.SendFrame(_ping.ToByteArray());
-            Console.WriteLine("Sent!");
+            if (_heartbeatSocket.HasOut) // HasOut actually is PollOut (if socket can send another message. For REQ it returns false after send until receive will be handled.
+            {
+                _heartbeatSocket.SendFrame(_ping.ToByteArray());
+                Console.WriteLine("Ping sent!");
+            }
+            else
+            {
+                Console.WriteLine("Ping was not sent.");
+            }
+        }
 
-            _ping = Ping.Parser.ParseFrom(_heartbeatSocket.ReceiveFrameBytes()); // this one blocks btw, if server is offline.
+        private void ReceivePing()
+        {
+            Console.WriteLine("Receiving ping.");
+
+            _ping = Ping.Parser.ParseFrom(_heartbeatSocket.ReceiveFrameBytes());
+
             Console.WriteLine($"Received! {_ping.Id}");
 
             if (_ping.Id == -1)
@@ -67,20 +88,29 @@ namespace Virtava.Client
                 Console.WriteLine("Server lost track of us. Sending new connection request.");
                 _ping.IsLast = false;
                 _heartbeatSocket.SendFrame(_ping.ToByteArray());
-                _ping = Ping.Parser.ParseFrom(_heartbeatSocket.ReceiveFrameBytes());
             }
+
             _listenerId = _ping.Id;
-            // TODO: Force send last ping on disconnect.
         }
 
         public void Dispose()
         {
-            _poller.Dispose();
-            _broadcastSocket.Dispose(); // TODO: Make sure socket is closed properly and that there will be no reads afterward.
-            _ping.Id = _listenerId;
-            _ping.IsLast = true;
-            _heartbeatSocket.SendFrame(_ping.ToByteArray()); // This will cause issues if: listener right now tries to send ping; listener right now waits for answering ping.
+            _poller.Stop();
+            _pollerThread.Join();
+            Console.WriteLine("Poller thread completely stopped.");
+
+            if (_heartbeatSocket.HasOut) // HasOut is true when server is dead or when Stop was called right in ping sending timer (ping was send but ReceiveReady wasn't processed already).
+            {
+                _ping.Id = _listenerId;
+                _ping.IsLast = true;
+                _heartbeatSocket.SendFrame(_ping.ToByteArray()); // If we think server is dead, then no last message for it.
+            }
+
+            _broadcastSocket.Dispose();
             _heartbeatSocket.Dispose();
+
+            GC.SuppressFinalize(this);
+            Console.WriteLine("Dispose ended!");
         }
     }
 }

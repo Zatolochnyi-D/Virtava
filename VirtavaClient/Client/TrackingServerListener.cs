@@ -22,7 +22,8 @@ namespace Virtava.Client
         private int _listenerId;
 
         private readonly SubscriberSocket _broadcastSocket;
-        private readonly RequestSocket _heartbeatSocket;
+        private readonly string _heartbeatAddress;
+        private RequestSocket _heartbeatSocket;
         private readonly MessageParser<T> _messageParser;
 
         private readonly NetMQPoller _poller;
@@ -43,7 +44,9 @@ namespace Virtava.Client
             _broadcastSocket.Options.ReceiveHighWatermark = 1;
             _broadcastSocket.ReceiveReady += (sender, args) => ReceiveBroadcast();
 
-            _heartbeatSocket = new RequestSocket($"tcp://localhost:{heartbeatPort}");
+            _heartbeatAddress = $"tcp://localhost:{heartbeatPort}";
+            _heartbeatSocket = new RequestSocket(_heartbeatAddress);
+            _heartbeatSocket.Options.Linger = TimeSpan.Zero;
             _heartbeatSocket.ReceiveReady += (sender, args) => ReceivePing();
 
             _messageParser = new MessageParser<T>(() => new T());
@@ -117,6 +120,11 @@ namespace Virtava.Client
             {
                 _connectedToTrackingServer = false;
                 _timeoutTimer.Enable = false;
+                _poller.RemoveAndDispose(_heartbeatSocket);
+                _heartbeatSocket = new RequestSocket(_heartbeatAddress);
+                _heartbeatSocket.Options.Linger = TimeSpan.Zero;
+                _heartbeatSocket.ReceiveReady += (sender, args) => ReceivePing();
+                _poller.Add(_heartbeatSocket);
                 OnConnectionLost?.Invoke();
             }
         }

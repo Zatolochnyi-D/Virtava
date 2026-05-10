@@ -1303,8 +1303,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b3bae7a11f46436a881ce3e7364918a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1612987649}
   m_SourcePrefab: {fileID: 100100000, guid: 2b3bae7a11f46436a881ce3e7364918a, type: 3}
+--- !u!1 &1612987646 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b3bae7a11f46436a881ce3e7364918a, type: 3}
+  m_PrefabInstance: {fileID: 1612987645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &1612987647 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -3887185075125053422, guid: 2b3bae7a11f46436a881ce3e7364918a, type: 3}
+  m_PrefabInstance: {fileID: 1612987645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1612987649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612987646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c304a0900fe41deb1126bf8bb283fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animatable
+  _meshRenderer: {fileID: 1612987647}
 --- !u!1 &1642027999
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,6 +1420,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1972249193}
   - component: {fileID: 1972249192}
+  - component: {fileID: 1972249194}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -1428,6 +1455,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1972249194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972249191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8390fa3c2032416cb9283c1abe40e4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LogicComponent
+  _wrapper: {fileID: 1972249192}
+  _animatable: {fileID: 1612987649}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

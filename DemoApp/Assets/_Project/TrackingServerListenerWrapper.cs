@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Concurrent;
 using UnityEngine;
 using Virtava.Client;
 
 public class TrackingServerListenerWrapper : MonoBehaviour
 {
+    public event Action<TrackingResult> OnResultReceived;
+
     private TrackingServerListener<TrackingResult> _tracker;
     private ConcurrentQueue<TrackingResult> _results;
 
@@ -19,9 +22,7 @@ public class TrackingServerListenerWrapper : MonoBehaviour
     void Update()
     {
         if (_results.TryDequeue(out var result))
-        {
-            Debug.Log(result.TrackingSucceded);
-        }
+            OnResultReceived?.Invoke(result);
     }
 
     void OnDestroy()

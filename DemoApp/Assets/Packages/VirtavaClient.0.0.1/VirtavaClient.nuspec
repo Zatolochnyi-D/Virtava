@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VirtavaClient</id>
+    <version>0.0.1</version>
+    <authors>Denys Zatolochny</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="166b511197e007de2487e3c214c183f89816bf14" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="Google.Protobuf" version="3.33.5" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="10.0.7" exclude="Build,Analyzers" />
+        <dependency id="NetMQ" version="4.0.2.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

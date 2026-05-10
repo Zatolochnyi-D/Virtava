@@ -985,41 +985,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1263918559}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
---- !u!1 &1263918556 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
-  m_PrefabInstance: {fileID: 1263918555}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1263918557 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -2027569866299962847, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
-  m_PrefabInstance: {fileID: 1263918555}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1263918558 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8879528566716807029, guid: aafc44672d4d54ad6ad0533c686f5584, type: 3}
-  m_PrefabInstance: {fileID: 1263918555}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1263918559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263918556}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abaf428864d064775b3d32774068239e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BoneAnimatable
-  _rigRoot: {fileID: 1263918558}
-  _differenceJson: {fileID: 4900000, guid: a0969ae29a94c465f9738a75d8c55849, type: 3}
-  _namingConvetionsMapJson: {fileID: 4900000, guid: 84298728e09b34cdb8c53e7da746a04b, type: 3}
 --- !u!1 &1483464791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1336,35 +1303,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b3bae7a11f46436a881ce3e7364918a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1612987648}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b3bae7a11f46436a881ce3e7364918a, type: 3}
---- !u!1 &1612987646 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b3bae7a11f46436a881ce3e7364918a, type: 3}
-  m_PrefabInstance: {fileID: 1612987645}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &1612987647 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -3887185075125053422, guid: 2b3bae7a11f46436a881ce3e7364918a, type: 3}
-  m_PrefabInstance: {fileID: 1612987645}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1612987648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612987646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36c2316fa92584dcfa3bb7d68fb16673, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ArkitBlendshapesAnimatable
-  _renderer: {fileID: 1612987647}
-  _namingConvetionsMapJson: {fileID: 4900000, guid: 84298728e09b34cdb8c53e7da746a04b, type: 3}
 --- !u!1 &1642027999
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,55 +1384,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1802033547
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1802033549}
-  - component: {fileID: 1802033550}
-  m_Layer: 0
-  m_Name: Animator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1802033549
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1802033547}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1802033550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1802033547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d92672a0759c4109bc6b28c39120a5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Connector2
-  _jawBone: {fileID: 1263918557}
-  _restPosition: 122.522
-  maxRotationDeviation: 142.24
-  _arkitBlendshapesAnimatable: {fileID: 1612987648}
-  _boneAnimatable: {fileID: 1263918559}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1502,6 +1393,5 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 477957535}
   - {fileID: 1642028002}
-  - {fileID: 1802033549}
   - {fileID: 1263918555}
   - {fileID: 1612987645}

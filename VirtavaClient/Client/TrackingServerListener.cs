@@ -3,10 +3,11 @@ using System.Threading;
 using Google.Protobuf;
 using NetMQ;
 using NetMQ.Sockets;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Virtava.Client
 {
-    // TODO: add logging.
     public class TrackingServerListener<T> : IDisposable where T : IMessage<T>, new()
     {
         private static readonly TimeSpan GRACE_PERIOD = TimeSpan.FromSeconds(0.5);
@@ -17,6 +18,8 @@ namespace Virtava.Client
         public event Action? OnConnectionEstablished;
         /// <summary> Event is fired on a background thread. </summary>
         public event Action? OnConnectionLost;
+
+        private ILogger<TrackingServerListener<T>> _logger;
 
         private Ping _ping;
         private int _listenerId;
@@ -32,9 +35,11 @@ namespace Virtava.Client
         private readonly NetMQTimer _timeoutTimer;
         private bool _connectedToTrackingServer = false;
 
-        public TrackingServerListener(int broadcastPort, int heartbeatPort, int millisecondsPerPing = 1000, int millisecondsToTimeout = 5000)
+        public TrackingServerListener(int broadcastPort, int heartbeatPort, int millisecondsPerPing = 1000, int millisecondsToTimeout = 5000, ILogger<TrackingServerListener<T>>? logger = null)
         {
-            Console.WriteLine("Bleh");
+            _logger = logger ?? NullLogger<TrackingServerListener<T>>.Instance;
+
+            _logger.LogDebug("Started creation of TrackingServerListener.");
 
             _ping = new Ping { Id = -1, IsLast = false };
             _listenerId = _ping.Id;
@@ -59,55 +64,53 @@ namespace Virtava.Client
             _timeoutTimer.Enable = false;
 
             SendPing();
-            Console.WriteLine("Sent initial ping.");
+            _logger.LogDebug("Sent initial ping.");
 
             _poller = new NetMQPoller { _broadcastSocket, _heartbeatSocket, pingSendingTimer, _timeoutTimer };
             _pollerThread = new Thread(_poller.Run);
             _pollerThread.Start();
+            _logger.LogInformation("TrackingServerListener created.");
         }
 
         private void ReceiveBroadcast()
         {
             var messageBytes = _broadcastSocket.ReceiveFrameBytes();
-            var message = _messageParser.ParseFrom(messageBytes); // TODO: We may accept message of a different type from what we expect.
+            var message = _messageParser.ParseFrom(messageBytes);
             OnResultReceived?.Invoke(message);
         }
 
         private void SendPing()
         {
-            Console.WriteLine("Sending ping.");
-
             _ping.Id = _listenerId;
             if (_heartbeatSocket.HasOut) // HasOut is PollOut (for REQ it is false after send until response arrive).
             {
                 _heartbeatSocket.SendFrame(_ping.ToByteArray());
-                Console.WriteLine("Ping sent!");
+                _logger.LogDebug("Ping sent.");
             }
             else
             {
-                Console.WriteLine("Ping was not sent.");
+                _logger.LogDebug("Ping not sent.");
             }
         }
 
         private void ReceivePing()
         {
-            Console.WriteLine("Receiving ping.");
-
             _ping = Ping.Parser.ParseFrom(_heartbeatSocket.ReceiveFrameBytes());
 
-            Console.WriteLine($"Received! {_ping.Id}");
+            _logger.LogDebug("Received ping. Assigned ID: {ListenerId}", _ping.Id);
 
             if (_ping.Id == -1)
             {
                 // Server lost track of us. Send new ping with -1 id to notify we are still present and get new id.
-                Console.WriteLine("Server lost track of us. Sending new connection request.");
                 _ping.IsLast = false;
                 _heartbeatSocket.SendFrame(_ping.ToByteArray());
+                _logger.LogWarning("Server lost track of this TrackingResultListener. Sending new connection request.");
             }
 
             if (!_connectedToTrackingServer)
             {
                 _connectedToTrackingServer = true;
+                _logger.LogInformation("Connection with Tracking server established.");
                 OnConnectionEstablished?.Invoke();
             }
             _timeoutTimer.EnableAndReset();
@@ -125,6 +128,7 @@ namespace Virtava.Client
                 _heartbeatSocket.Options.Linger = TimeSpan.Zero;
                 _heartbeatSocket.ReceiveReady += (sender, args) => ReceivePing();
                 _poller.Add(_heartbeatSocket);
+                _logger.LogWarning("Awaiting response ping from Tracking server timed out.");
                 OnConnectionLost?.Invoke();
             }
         }
@@ -134,13 +138,14 @@ namespace Virtava.Client
             _ping.Id = _listenerId;
             _ping.IsLast = true;
             _heartbeatSocket.SendFrame(_ping.ToByteArray());
+            _logger.LogInformation("Sent disconnecting ping.");
         }
 
         public void Dispose()
         {
             _poller.Stop();
             _pollerThread.Join();
-            Console.WriteLine("Poller thread completely stopped.");
+            _logger.LogDebug("Poller thread stopped.");
 
             if (_heartbeatSocket.HasOut)
             {
@@ -159,7 +164,7 @@ namespace Virtava.Client
             _heartbeatSocket.Dispose();
 
             GC.SuppressFinalize(this);
-            Console.WriteLine("Dispose ended!");
+            _logger.LogInformation("TrackingServerListener disposed.");
         }
     }
 }

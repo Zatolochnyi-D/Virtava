@@ -76,8 +76,7 @@ def stop_tracking():
     tracking_event.set()
 
 tracker_server = TrackerServer(port, port + 1)
-tracker_server.first_listener_connected.subscribe(start_tracking) # TODO: try queue with dispatcher instead of this multithreaded chaos.
-                                                                  #       I may need to add possibility to add different dispatchers for both events.
+tracker_server.first_listener_connected.subscribe(start_tracking)
 tracker_server.no_listeners_left.subscribe(stop_tracking)
 
 stop_event.wait()

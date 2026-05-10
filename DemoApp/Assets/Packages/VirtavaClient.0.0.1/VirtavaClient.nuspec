@@ -5,7 +5,7 @@
     <version>0.0.1</version>
     <authors>Denys Zatolochny</authors>
     <description>Package Description</description>
-    <repository type="git" commit="166b511197e007de2487e3c214c183f89816bf14" />
+    <repository type="git" commit="47eb1ebee9392fb7af9b2cd5cca1b22341a03528" />
     <dependencies>
       <group targetFramework=".NETStandard2.1">
         <dependency id="Google.Protobuf" version="3.33.5" exclude="Build,Analyzers" />

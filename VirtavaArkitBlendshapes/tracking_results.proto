@@ -1,11 +1,5 @@
 syntax = "proto3";
 
-message NormalizedLandmark {
-    float x = 1;
-    float y = 2;
-    float z = 3;
-}
-
 message Blendshapes {
     float browDownLeft = 1; 
     float browDownRight = 2; 
@@ -63,6 +57,5 @@ message Blendshapes {
 
 message TrackingResult {
     bool trackingSucceded = 1;
-    repeated NormalizedLandmark normalizedLandmarkList = 2;
-    Blendshapes blendshapes = 3;
+    Blendshapes blendshapes = 2;
 }

@@ -22,323 +22,47 @@ public static partial class TrackingResultsReflection {
   static TrackingResultsReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChZ0cmFja2luZ19yZXN1bHRzLnByb3RvIjUKEk5vcm1hbGl6ZWRMYW5kbWFy",
-          "axIJCgF4GAEgASgCEgkKAXkYAiABKAISCQoBehgDIAEoAiLLCQoLQmxlbmRz",
-          "aGFwZXMSFAoMYnJvd0Rvd25MZWZ0GAEgASgCEhUKDWJyb3dEb3duUmlnaHQY",
-          "AiABKAISEwoLYnJvd0lubmVyVXAYAyABKAISFwoPYnJvd091dGVyVXBMZWZ0",
-          "GAQgASgCEhgKEGJyb3dPdXRlclVwUmlnaHQYBSABKAISEQoJY2hlZWtQdWZm",
-          "GAYgASgCEhcKD2NoZWVrU3F1aW50TGVmdBgHIAEoAhIYChBjaGVla1NxdWlu",
-          "dFJpZ2h0GAggASgCEhQKDGV5ZUJsaW5rTGVmdBgJIAEoAhIVCg1leWVCbGlu",
-          "a1JpZ2h0GAogASgCEhcKD2V5ZUxvb2tEb3duTGVmdBgLIAEoAhIYChBleWVM",
-          "b29rRG93blJpZ2h0GAwgASgCEhUKDWV5ZUxvb2tJbkxlZnQYDSABKAISFgoO",
-          "ZXllTG9va0luUmlnaHQYDiABKAISFgoOZXllTG9va091dExlZnQYDyABKAIS",
-          "FwoPZXllTG9va091dFJpZ2h0GBAgASgCEhUKDWV5ZUxvb2tVcExlZnQYESAB",
-          "KAISFgoOZXllTG9va1VwUmlnaHQYEiABKAISFQoNZXllU3F1aW50TGVmdBgT",
-          "IAEoAhIWCg5leWVTcXVpbnRSaWdodBgUIAEoAhITCgtleWVXaWRlTGVmdBgV",
-          "IAEoAhIUCgxleWVXaWRlUmlnaHQYFiABKAISEgoKamF3Rm9yd2FyZBgXIAEo",
-          "AhIPCgdqYXdMZWZ0GBggASgCEg8KB2phd09wZW4YGSABKAISEAoIamF3Umln",
-          "aHQYGiABKAISEgoKbW91dGhDbG9zZRgbIAEoAhIXCg9tb3V0aERpbXBsZUxl",
-          "ZnQYHCABKAISGAoQbW91dGhEaW1wbGVSaWdodBgdIAEoAhIWCg5tb3V0aEZy",
-          "b3duTGVmdBgeIAEoAhIXCg9tb3V0aEZyb3duUmlnaHQYHyABKAISEwoLbW91",
-          "dGhGdW5uZWwYICABKAISEQoJbW91dGhMZWZ0GCEgASgCEhoKEm1vdXRoTG93",
-          "ZXJEb3duTGVmdBgiIAEoAhIbChNtb3V0aExvd2VyRG93blJpZ2h0GCMgASgC",
-          "EhYKDm1vdXRoUHJlc3NMZWZ0GCQgASgCEhcKD21vdXRoUHJlc3NSaWdodBgl",
-          "IAEoAhITCgttb3V0aFB1Y2tlchgmIAEoAhISCgptb3V0aFJpZ2h0GCcgASgC",
-          "EhYKDm1vdXRoUm9sbExvd2VyGCggASgCEhYKDm1vdXRoUm9sbFVwcGVyGCkg",
-          "ASgCEhcKD21vdXRoU2hydWdMb3dlchgqIAEoAhIXCg9tb3V0aFNocnVnVXBw",
-          "ZXIYKyABKAISFgoObW91dGhTbWlsZUxlZnQYLCABKAISFwoPbW91dGhTbWls",
-          "ZVJpZ2h0GC0gASgCEhgKEG1vdXRoU3RyZXRjaExlZnQYLiABKAISGQoRbW91",
-          "dGhTdHJldGNoUmlnaHQYLyABKAISGAoQbW91dGhVcHBlclVwTGVmdBgwIAEo",
-          "AhIZChFtb3V0aFVwcGVyVXBSaWdodBgxIAEoAhIVCg1ub3NlU25lZXJMZWZ0",
-          "GDIgASgCEhYKDm5vc2VTbmVlclJpZ2h0GDMgASgCEhEKCXRvbmd1ZU91dBg0",
-          "IAEoAiKCAQoOVHJhY2tpbmdSZXN1bHQSGAoQdHJhY2tpbmdTdWNjZWRlZBgB",
-          "IAEoCBIzChZub3JtYWxpemVkTGFuZG1hcmtMaXN0GAIgAygLMhMuTm9ybWFs",
-          "aXplZExhbmRtYXJrEiEKC2JsZW5kc2hhcGVzGAMgASgLMgwuQmxlbmRzaGFw",
-          "ZXNiBnByb3RvMw=="));
+          "ChZ0cmFja2luZ19yZXN1bHRzLnByb3RvIssJCgtCbGVuZHNoYXBlcxIUCgxi",
+          "cm93RG93bkxlZnQYASABKAISFQoNYnJvd0Rvd25SaWdodBgCIAEoAhITCgti",
+          "cm93SW5uZXJVcBgDIAEoAhIXCg9icm93T3V0ZXJVcExlZnQYBCABKAISGAoQ",
+          "YnJvd091dGVyVXBSaWdodBgFIAEoAhIRCgljaGVla1B1ZmYYBiABKAISFwoP",
+          "Y2hlZWtTcXVpbnRMZWZ0GAcgASgCEhgKEGNoZWVrU3F1aW50UmlnaHQYCCAB",
+          "KAISFAoMZXllQmxpbmtMZWZ0GAkgASgCEhUKDWV5ZUJsaW5rUmlnaHQYCiAB",
+          "KAISFwoPZXllTG9va0Rvd25MZWZ0GAsgASgCEhgKEGV5ZUxvb2tEb3duUmln",
+          "aHQYDCABKAISFQoNZXllTG9va0luTGVmdBgNIAEoAhIWCg5leWVMb29rSW5S",
+          "aWdodBgOIAEoAhIWCg5leWVMb29rT3V0TGVmdBgPIAEoAhIXCg9leWVMb29r",
+          "T3V0UmlnaHQYECABKAISFQoNZXllTG9va1VwTGVmdBgRIAEoAhIWCg5leWVM",
+          "b29rVXBSaWdodBgSIAEoAhIVCg1leWVTcXVpbnRMZWZ0GBMgASgCEhYKDmV5",
+          "ZVNxdWludFJpZ2h0GBQgASgCEhMKC2V5ZVdpZGVMZWZ0GBUgASgCEhQKDGV5",
+          "ZVdpZGVSaWdodBgWIAEoAhISCgpqYXdGb3J3YXJkGBcgASgCEg8KB2phd0xl",
+          "ZnQYGCABKAISDwoHamF3T3BlbhgZIAEoAhIQCghqYXdSaWdodBgaIAEoAhIS",
+          "Cgptb3V0aENsb3NlGBsgASgCEhcKD21vdXRoRGltcGxlTGVmdBgcIAEoAhIY",
+          "ChBtb3V0aERpbXBsZVJpZ2h0GB0gASgCEhYKDm1vdXRoRnJvd25MZWZ0GB4g",
+          "ASgCEhcKD21vdXRoRnJvd25SaWdodBgfIAEoAhITCgttb3V0aEZ1bm5lbBgg",
+          "IAEoAhIRCgltb3V0aExlZnQYISABKAISGgoSbW91dGhMb3dlckRvd25MZWZ0",
+          "GCIgASgCEhsKE21vdXRoTG93ZXJEb3duUmlnaHQYIyABKAISFgoObW91dGhQ",
+          "cmVzc0xlZnQYJCABKAISFwoPbW91dGhQcmVzc1JpZ2h0GCUgASgCEhMKC21v",
+          "dXRoUHVja2VyGCYgASgCEhIKCm1vdXRoUmlnaHQYJyABKAISFgoObW91dGhS",
+          "b2xsTG93ZXIYKCABKAISFgoObW91dGhSb2xsVXBwZXIYKSABKAISFwoPbW91",
+          "dGhTaHJ1Z0xvd2VyGCogASgCEhcKD21vdXRoU2hydWdVcHBlchgrIAEoAhIW",
+          "Cg5tb3V0aFNtaWxlTGVmdBgsIAEoAhIXCg9tb3V0aFNtaWxlUmlnaHQYLSAB",
+          "KAISGAoQbW91dGhTdHJldGNoTGVmdBguIAEoAhIZChFtb3V0aFN0cmV0Y2hS",
+          "aWdodBgvIAEoAhIYChBtb3V0aFVwcGVyVXBMZWZ0GDAgASgCEhkKEW1vdXRo",
+          "VXBwZXJVcFJpZ2h0GDEgASgCEhUKDW5vc2VTbmVlckxlZnQYMiABKAISFgoO",
+          "bm9zZVNuZWVyUmlnaHQYMyABKAISEQoJdG9uZ3VlT3V0GDQgASgCIk0KDlRy",
+          "YWNraW5nUmVzdWx0EhgKEHRyYWNraW5nU3VjY2VkZWQYASABKAgSIQoLYmxl",
+          "bmRzaGFwZXMYAiABKAsyDC5CbGVuZHNoYXBlc2IGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::NormalizedLandmark), global::NormalizedLandmark.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Blendshapes), global::Blendshapes.Parser, new[]{ "BrowDownLeft", "BrowDownRight", "BrowInnerUp", "BrowOuterUpLeft", "BrowOuterUpRight", "CheekPuff", "CheekSquintLeft", "CheekSquintRight", "EyeBlinkLeft", "EyeBlinkRight", "EyeLookDownLeft", "EyeLookDownRight", "EyeLookInLeft", "EyeLookInRight", "EyeLookOutLeft", "EyeLookOutRight", "EyeLookUpLeft", "EyeLookUpRight", "EyeSquintLeft", "EyeSquintRight", "EyeWideLeft", "EyeWideRight", "JawForward", "JawLeft", "JawOpen", "JawRight", "MouthClose", "MouthDimpleLeft", "MouthDimpleRight", "MouthFrownLeft", "MouthFrownRight", "MouthFunnel", "MouthLeft", "MouthLowerDownLeft", "MouthLowerDownRight", "MouthPressLeft", "MouthPressRight", "MouthPucker", "MouthRight", "MouthRollLower", "MouthRollUpper", "MouthShrugLower", "MouthShrugUpper", "MouthSmileLeft", "MouthSmileRight", "MouthStretchLeft", "MouthStretchRight", "MouthUpperUpLeft", "MouthUpperUpRight", "NoseSneerLeft", "NoseSneerRight", "TongueOut" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::TrackingResult), global::TrackingResult.Parser, new[]{ "TrackingSucceded", "NormalizedLandmarkList", "Blendshapes" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::TrackingResult), global::TrackingResult.Parser, new[]{ "TrackingSucceded", "Blendshapes" }, null, null, null, null)
         }));
   }
   #endregion
 
 }
 #region Messages
-[global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-public sealed partial class NormalizedLandmark : pb::IMessage<NormalizedLandmark>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    , pb::IBufferMessage
-#endif
-{
-  private static readonly pb::MessageParser<NormalizedLandmark> _parser = new pb::MessageParser<NormalizedLandmark>(() => new NormalizedLandmark());
-  private pb::UnknownFieldSet _unknownFields;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public static pb::MessageParser<NormalizedLandmark> Parser { get { return _parser; } }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public static pbr::MessageDescriptor Descriptor {
-    get { return global::TrackingResultsReflection.Descriptor.MessageTypes[0]; }
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  pbr::MessageDescriptor pb::IMessage.Descriptor {
-    get { return Descriptor; }
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public NormalizedLandmark() {
-    OnConstruction();
-  }
-
-  partial void OnConstruction();
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public NormalizedLandmark(NormalizedLandmark other) : this() {
-    x_ = other.x_;
-    y_ = other.y_;
-    z_ = other.z_;
-    _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public NormalizedLandmark Clone() {
-    return new NormalizedLandmark(this);
-  }
-
-  /// <summary>Field number for the "x" field.</summary>
-  public const int XFieldNumber = 1;
-  private float x_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public float X {
-    get { return x_; }
-    set {
-      x_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "y" field.</summary>
-  public const int YFieldNumber = 2;
-  private float y_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public float Y {
-    get { return y_; }
-    set {
-      y_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "z" field.</summary>
-  public const int ZFieldNumber = 3;
-  private float z_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public float Z {
-    get { return z_; }
-    set {
-      z_ = value;
-    }
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public override bool Equals(object other) {
-    return Equals(other as NormalizedLandmark);
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public bool Equals(NormalizedLandmark other) {
-    if (ReferenceEquals(other, null)) {
-      return false;
-    }
-    if (ReferenceEquals(other, this)) {
-      return true;
-    }
-    if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(X, other.X)) return false;
-    if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Y, other.Y)) return false;
-    if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Z, other.Z)) return false;
-    return Equals(_unknownFields, other._unknownFields);
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public override int GetHashCode() {
-    int hash = 1;
-    if (X != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(X);
-    if (Y != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Y);
-    if (Z != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Z);
-    if (_unknownFields != null) {
-      hash ^= _unknownFields.GetHashCode();
-    }
-    return hash;
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public override string ToString() {
-    return pb::JsonFormatter.ToDiagnosticString(this);
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public void WriteTo(pb::CodedOutputStream output) {
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    output.WriteRawMessage(this);
-  #else
-    if (X != 0F) {
-      output.WriteRawTag(13);
-      output.WriteFloat(X);
-    }
-    if (Y != 0F) {
-      output.WriteRawTag(21);
-      output.WriteFloat(Y);
-    }
-    if (Z != 0F) {
-      output.WriteRawTag(29);
-      output.WriteFloat(Z);
-    }
-    if (_unknownFields != null) {
-      _unknownFields.WriteTo(output);
-    }
-  #endif
-  }
-
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-    if (X != 0F) {
-      output.WriteRawTag(13);
-      output.WriteFloat(X);
-    }
-    if (Y != 0F) {
-      output.WriteRawTag(21);
-      output.WriteFloat(Y);
-    }
-    if (Z != 0F) {
-      output.WriteRawTag(29);
-      output.WriteFloat(Z);
-    }
-    if (_unknownFields != null) {
-      _unknownFields.WriteTo(ref output);
-    }
-  }
-  #endif
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int CalculateSize() {
-    int size = 0;
-    if (X != 0F) {
-      size += 1 + 4;
-    }
-    if (Y != 0F) {
-      size += 1 + 4;
-    }
-    if (Z != 0F) {
-      size += 1 + 4;
-    }
-    if (_unknownFields != null) {
-      size += _unknownFields.CalculateSize();
-    }
-    return size;
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public void MergeFrom(NormalizedLandmark other) {
-    if (other == null) {
-      return;
-    }
-    if (other.X != 0F) {
-      X = other.X;
-    }
-    if (other.Y != 0F) {
-      Y = other.Y;
-    }
-    if (other.Z != 0F) {
-      Z = other.Z;
-    }
-    _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public void MergeFrom(pb::CodedInputStream input) {
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    input.ReadRawMessage(this);
-  #else
-    uint tag;
-    while ((tag = input.ReadTag()) != 0) {
-    if ((tag & 7) == 4) {
-      // Abort on any end group tag.
-      return;
-    }
-    switch(tag) {
-        default:
-          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-          break;
-        case 13: {
-          X = input.ReadFloat();
-          break;
-        }
-        case 21: {
-          Y = input.ReadFloat();
-          break;
-        }
-        case 29: {
-          Z = input.ReadFloat();
-          break;
-        }
-      }
-    }
-  #endif
-  }
-
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-    uint tag;
-    while ((tag = input.ReadTag()) != 0) {
-    if ((tag & 7) == 4) {
-      // Abort on any end group tag.
-      return;
-    }
-    switch(tag) {
-        default:
-          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-          break;
-        case 13: {
-          X = input.ReadFloat();
-          break;
-        }
-        case 21: {
-          Y = input.ReadFloat();
-          break;
-        }
-        case 29: {
-          Z = input.ReadFloat();
-          break;
-        }
-      }
-    }
-  }
-  #endif
-
-}
-
 [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
 public sealed partial class Blendshapes : pb::IMessage<Blendshapes>
 #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -354,7 +78,7 @@ public sealed partial class Blendshapes : pb::IMessage<Blendshapes>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::TrackingResultsReflection.Descriptor.MessageTypes[1]; }
+    get { return global::TrackingResultsReflection.Descriptor.MessageTypes[0]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2439,7 +2163,7 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public static pbr::MessageDescriptor Descriptor {
-    get { return global::TrackingResultsReflection.Descriptor.MessageTypes[2]; }
+    get { return global::TrackingResultsReflection.Descriptor.MessageTypes[1]; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2460,7 +2184,6 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public TrackingResult(TrackingResult other) : this() {
     trackingSucceded_ = other.trackingSucceded_;
-    normalizedLandmarkList_ = other.normalizedLandmarkList_.Clone();
     blendshapes_ = other.blendshapes_ != null ? other.blendshapes_.Clone() : null;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
@@ -2483,19 +2206,8 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
     }
   }
 
-  /// <summary>Field number for the "normalizedLandmarkList" field.</summary>
-  public const int NormalizedLandmarkListFieldNumber = 2;
-  private static readonly pb::FieldCodec<global::NormalizedLandmark> _repeated_normalizedLandmarkList_codec
-      = pb::FieldCodec.ForMessage(18, global::NormalizedLandmark.Parser);
-  private readonly pbc::RepeatedField<global::NormalizedLandmark> normalizedLandmarkList_ = new pbc::RepeatedField<global::NormalizedLandmark>();
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public pbc::RepeatedField<global::NormalizedLandmark> NormalizedLandmarkList {
-    get { return normalizedLandmarkList_; }
-  }
-
   /// <summary>Field number for the "blendshapes" field.</summary>
-  public const int BlendshapesFieldNumber = 3;
+  public const int BlendshapesFieldNumber = 2;
   private global::Blendshapes blendshapes_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2522,7 +2234,6 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
       return true;
     }
     if (TrackingSucceded != other.TrackingSucceded) return false;
-    if(!normalizedLandmarkList_.Equals(other.normalizedLandmarkList_)) return false;
     if (!object.Equals(Blendshapes, other.Blendshapes)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
@@ -2532,7 +2243,6 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
   public override int GetHashCode() {
     int hash = 1;
     if (TrackingSucceded != false) hash ^= TrackingSucceded.GetHashCode();
-    hash ^= normalizedLandmarkList_.GetHashCode();
     if (blendshapes_ != null) hash ^= Blendshapes.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
@@ -2556,9 +2266,8 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
       output.WriteRawTag(8);
       output.WriteBool(TrackingSucceded);
     }
-    normalizedLandmarkList_.WriteTo(output, _repeated_normalizedLandmarkList_codec);
     if (blendshapes_ != null) {
-      output.WriteRawTag(26);
+      output.WriteRawTag(18);
       output.WriteMessage(Blendshapes);
     }
     if (_unknownFields != null) {
@@ -2575,9 +2284,8 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
       output.WriteRawTag(8);
       output.WriteBool(TrackingSucceded);
     }
-    normalizedLandmarkList_.WriteTo(ref output, _repeated_normalizedLandmarkList_codec);
     if (blendshapes_ != null) {
-      output.WriteRawTag(26);
+      output.WriteRawTag(18);
       output.WriteMessage(Blendshapes);
     }
     if (_unknownFields != null) {
@@ -2593,7 +2301,6 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
     if (TrackingSucceded != false) {
       size += 1 + 1;
     }
-    size += normalizedLandmarkList_.CalculateSize(_repeated_normalizedLandmarkList_codec);
     if (blendshapes_ != null) {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(Blendshapes);
     }
@@ -2612,7 +2319,6 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
     if (other.TrackingSucceded != false) {
       TrackingSucceded = other.TrackingSucceded;
     }
-    normalizedLandmarkList_.Add(other.normalizedLandmarkList_);
     if (other.blendshapes_ != null) {
       if (blendshapes_ == null) {
         Blendshapes = new global::Blendshapes();
@@ -2643,10 +2349,6 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
           break;
         }
         case 18: {
-          normalizedLandmarkList_.AddEntriesFrom(input, _repeated_normalizedLandmarkList_codec);
-          break;
-        }
-        case 26: {
           if (blendshapes_ == null) {
             Blendshapes = new global::Blendshapes();
           }
@@ -2677,10 +2379,6 @@ public sealed partial class TrackingResult : pb::IMessage<TrackingResult>
           break;
         }
         case 18: {
-          normalizedLandmarkList_.AddEntriesFrom(ref input, _repeated_normalizedLandmarkList_codec);
-          break;
-        }
-        case 26: {
           if (blendshapes_ == null) {
             Blendshapes = new global::Blendshapes();
           }

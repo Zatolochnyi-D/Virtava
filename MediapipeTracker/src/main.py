@@ -57,15 +57,13 @@ def start_tracking():
             for category in detection_result.face_blendshapes[0]:
                 if category.category_name == "_neutral":
                     continue
-                setattr(result.blendshapes, category.category_name, category.score) # TODO: replace setattr with something... less dynamic.
-                                                                                    # TODO: Add map from different naming conventions 
-                                                                                    #       to camel case. Use this map to convert category name.
+                setattr(result.blendshapes, category.category_name, category.score)
         else:
             result.trackingSucceded = False
             print("  Send failure")
 
         if not tracking_event.is_set():
-            tracker_server.send(result) # TODO: this one can be called after server is closed. Work better on order of operations.
+            tracker_server.send(result)
 
     camera.release()
     print('tracking loop stopped.')

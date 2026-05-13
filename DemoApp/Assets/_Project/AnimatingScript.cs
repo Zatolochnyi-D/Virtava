@@ -1,17 +1,22 @@
 using UnityEngine;
 using Virtava.Client;
 
-public class LogicComponent : MonoBehaviour
+public class AnimatingScript : MonoBehaviour
 {
     [SerializeField] private TrackingServerListenerWrapper _wrapper;
-    [SerializeField] private UnityBlendshapeAnimatable _animatable;
+    [SerializeField] private ModelSelector _modelSelector;
 
     private BlendshapeAnimator _animator;
 
     void Awake()
     {
         _wrapper.OnResultReceived += HandleResults;
-        _animator = new(_animatable);
+        _modelSelector.OnModelSelected += SetAnimatableObject;
+    }
+    
+    private void SetAnimatableObject(UnityBlendshapeAnimatable animatable)
+    {
+        _animator = new(animatable);
     }
 
     private void HandleResults(TrackingResult result)
@@ -19,7 +24,6 @@ public class LogicComponent : MonoBehaviour
         if (!result.TrackingSucceded)
             return;
         _animator.Animate(new ArkitBlendshapeByNameProvider(result));
-        Debug.Log(result.TrackingSucceded);
     }
 }
 

@@ -10,7 +10,7 @@ public class TrackerStatusUpdater : MonoBehaviour
 
     void Awake()
     {
-        _listener.OnConnectionEstablished += () => _statusTextBar.text = string.Format(TRACKER_STATUS_FORMAT_STRING, "Active");
-        _listener.OnConnectionLost += () => _statusTextBar.text = string.Format(TRACKER_STATUS_FORMAT_STRING, "Not responding");
+        _listener.OnConnectionEstablished += () => _statusTextBar.text = string.Format(TRACKER_STATUS_FORMAT_STRING, "Активний");
+        _listener.OnConnectionLost += () => _statusTextBar.text = string.Format(TRACKER_STATUS_FORMAT_STRING, "Не відповідає");
     }
 }

@@ -16,14 +16,23 @@ namespace Virtava.Client
             foreach (var name in _blendshapeAnimatable.AvailableBlendshapes)
             {
                 if (provider.HasBlendshapeByName(name))
-                {
-                    _blendshapeAnimatable.ApplyBlendshape(name, provider.GetBlendshapeByName(name)); // TODO: handle possible different naming formats.
-                }
+                    _blendshapeAnimatable.ApplyBlendshape(name, provider.GetBlendshapeByName(name));
                 else
-                {
-                    // TODO: handle what to do on missing name in provider. Log, throw or ignore?
-                }
+                    throw new MissingBlendshapeException($"Couldn't animate object properly - \"{name}\" blendshape is missing.");
             }
+        }
+
+        public bool TryAnimate<T>(T provider) where T : IBlendshapeByNameProvider
+        {
+            var completeSuccess = true;
+            foreach (var name in _blendshapeAnimatable.AvailableBlendshapes)
+            {
+                if (provider.HasBlendshapeByName(name))
+                    _blendshapeAnimatable.ApplyBlendshape(name, provider.GetBlendshapeByName(name));
+                else
+                    completeSuccess = false;
+            }
+            return completeSuccess;
         }
     }
 }

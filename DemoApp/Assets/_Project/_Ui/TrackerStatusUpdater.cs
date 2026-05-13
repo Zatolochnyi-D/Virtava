@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TrackerStatusUpdater : MonoBehaviour
 {
-    private const string TRACKER_STATUS_FORMAT_STRING = "Tracker status: {0}";
+    private const string TRACKER_STATUS_FORMAT_STRING = "Статус трекера: {0}";
 
     [SerializeField] private TrackingServerListenerWrapper _listener;
     [SerializeField] private TextMeshProUGUI _statusTextBar;

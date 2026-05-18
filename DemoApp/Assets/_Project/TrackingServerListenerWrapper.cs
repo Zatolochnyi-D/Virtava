@@ -2,15 +2,16 @@ using System;
 using System.Collections.Concurrent;
 using UnityEngine;
 using Virtava.Client;
+using Virtava.DataFormatModules.ArkitBlendshapes;
 
 public class TrackingServerListenerWrapper : MonoBehaviour
 {
     public event Action OnConnectionEstablished;
     public event Action OnConnectionLost;
-    public event Action<TrackingResult> OnResultReceived;
+    public event Action<ArkitBlendshapesResult> OnResultReceived;
 
-    private TrackingServerListener<TrackingResult> _tracker;
-    private ConcurrentQueue<TrackingResult> _results;
+    private TrackingServerListener<ArkitBlendshapesResult> _tracker;
+    private ConcurrentQueue<ArkitBlendshapesResult> _results;
     private bool _hadConnectionEstablishedOnThisFrame = false;
     private bool _hadConnectionLostOnThisFrame = false;
     private bool _applicationIsFocused = true;
@@ -63,7 +64,7 @@ public class TrackingServerListenerWrapper : MonoBehaviour
         _hadConnectionLostOnThisFrame = true;
     }
 
-    private void HandleOnResultsReceived(TrackingResult results)
+    private void HandleOnResultsReceived(ArkitBlendshapesResult results)
     {
         if (_applicationIsFocused)
             _results.Enqueue(results);

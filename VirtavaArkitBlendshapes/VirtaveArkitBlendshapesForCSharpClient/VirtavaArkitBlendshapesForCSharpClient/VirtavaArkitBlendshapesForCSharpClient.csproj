@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.34.1" />
+    <PackageReference Include="VirtavaClient" Version="0.0.1" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageId>VirtavaArkitBlendshapesForCSharpClient</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>Denys Zatolochny</Authors>
+    <Company>Neutrals</Company>
+  </PropertyGroup>
+
+</Project>

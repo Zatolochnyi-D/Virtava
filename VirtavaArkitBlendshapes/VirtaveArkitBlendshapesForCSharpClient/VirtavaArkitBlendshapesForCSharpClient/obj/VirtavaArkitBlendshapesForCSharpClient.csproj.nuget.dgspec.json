@@ -1,0 +1,84 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtaveArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient.csproj": {}
+  },
+  "projects": {
+    "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtaveArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient.csproj": {
+      "version": "0.0.1",
+      "restore": {
+        "projectUniqueName": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtaveArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient.csproj",
+        "projectName": "VirtavaArkitBlendshapesForCSharpClient",
+        "projectPath": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtaveArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient.csproj",
+        "packagesPath": "/Users/denys/.nuget/packages/",
+        "outputPath": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtaveArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/denys/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "/Users/denys/Desktop/Diploma/Project/Repo": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "dependencies": {
+            "Google.Protobuf": {
+              "target": "Package",
+              "version": "[3.34.1, )"
+            },
+            "VirtavaClient": {
+              "target": "Package",
+              "version": "[0.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "NETStandard.Library.Ref",
+              "version": "[2.1.0, 2.1.0]"
+            }
+          ],
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -13,14 +13,23 @@ public class TrackingServerListenerWrapper : MonoBehaviour
     private ConcurrentQueue<TrackingResult> _results;
     private bool _hadConnectionEstablishedOnThisFrame = false;
     private bool _hadConnectionLostOnThisFrame = false;
+    private bool _applicationIsFocused = true;
 
     void Awake()
     {
         _tracker = new(14210, 14211);
         _results = new();
-        _tracker.OnConnectionEstablished += () => _hadConnectionEstablishedOnThisFrame = true;
-        _tracker.OnConnectionLost += () => _hadConnectionLostOnThisFrame = true;
-        _tracker.OnResultReceived += val => _results.Enqueue(val);
+        _tracker.OnConnectionEstablished += HandleOnConnectionEstablished;
+        _tracker.OnConnectionLost += HandleOnConnectionLost;
+        _tracker.OnResultReceived += HandleOnResultsReceived;
+    }
+
+    void OnApplicationFocus(bool focus)
+    {
+        // When app is unfocused, listener thread is working whereas main thread (with Updates) halts.
+        // This leads to messages enqueing and rapidly dequeing on focusing window, causing sudden 100+ FPS for the first second.
+        // Let the thread work but stop enquing if window is unfocused.
+        _applicationIsFocused = focus;
     }
 
     void Update()
@@ -42,5 +51,21 @@ public class TrackingServerListenerWrapper : MonoBehaviour
     void OnDestroy()
     {
         _tracker.Dispose();
+    }
+
+    private void HandleOnConnectionEstablished()
+    {
+        _hadConnectionEstablishedOnThisFrame = true;
+    }
+
+    private void HandleOnConnectionLost()
+    {
+        _hadConnectionLostOnThisFrame = true;
+    }
+
+    private void HandleOnResultsReceived(TrackingResult results)
+    {
+        if (_applicationIsFocused)
+            _results.Enqueue(results);
     }
 }

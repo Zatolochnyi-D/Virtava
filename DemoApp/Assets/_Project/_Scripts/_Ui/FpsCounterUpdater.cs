@@ -1,12 +1,14 @@
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using Virtava.Adapters.Unity;
+using Virtava.DataFormatModules.ArkitBlendshapes;
 
 public class FpsCounterUpdater : MonoBehaviour
 {
     private const string FPS_COUNTER_FORMAT_STRING = "FPS: {0}";
 
-    [SerializeField] private TrackingServerListenerWrapper _listener;
+    [SerializeField] private UnityTrackingServerListener<ArkitBlendshapesResult> _listener;
     [SerializeField] private TextMeshProUGUI _fpsCounterTextBar;
 
     private int _receiveCounter = 0;

@@ -1,0 +1,10 @@
+{
+  "name": "com.denz.virtava",
+  "version": "0.0.1",
+  "displayName": "Virtava Unity Adapter",
+  "description": "Adapter to work with Virtava Framework.",
+  "unity": "6000.0",
+  "keywords": [
+    "virtava"
+  ]
+}

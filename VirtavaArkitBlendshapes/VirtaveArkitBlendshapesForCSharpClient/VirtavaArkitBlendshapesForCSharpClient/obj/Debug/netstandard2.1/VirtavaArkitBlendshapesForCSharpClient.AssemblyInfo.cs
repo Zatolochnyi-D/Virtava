@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Neutrals")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.0.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.1+66ddf3e8d12577f18386bcd653bc7699d56e4fd9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.0.1+3793a0ebe9eb7097ec5e61eb57d3e81837573c5f")]
 [assembly: System.Reflection.AssemblyProductAttribute("VirtavaArkitBlendshapesForCSharpClient")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VirtavaArkitBlendshapesForCSharpClient")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.0.1.0")]

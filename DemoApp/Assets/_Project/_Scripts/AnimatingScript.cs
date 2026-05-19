@@ -1,10 +1,11 @@
 using UnityEngine;
 using Virtava.Client;
+using Virtava.Adapters.Unity;
 using Virtava.DataFormatModules.ArkitBlendshapes;
 
 public class AnimatingScript : MonoBehaviour
 {
-    [SerializeField] private TrackingServerListenerWrapper _wrapper;
+    [SerializeField] private UnityTrackingServerListener<ArkitBlendshapesResult> _wrapper;
     [SerializeField] private ModelSelector _modelSelector;
 
     private BlendshapeAnimator _animator;

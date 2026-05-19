@@ -39,8 +39,6 @@ def start_tracking():
     tracking_event = Event()
     camera = cv2.VideoCapture(0)  # TODO: move camera index injection up. User may have several cameras so it should be configurable which one to use.
                                   # TODO: it is not guaranteed for camera to be found. Handle possible error.
-                                  # TODO: if system restricts access to camera, app should ask for permission first. OpenCV asks for permission
-                                  #       but doesn't wait for user to grant it and fails.
 
     while camera.isOpened() and not tracking_event.is_set():
         success, image = camera.read()  # TODO: look up what can be cause of unsuccessful read and handle those cases. Just break with fail message is not enough.

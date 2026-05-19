@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e27f76b862f43e6b457cdcc27f0224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FpsCounterUpdater
-  _listener: {fileID: 1972249192}
+  _listener: {fileID: 1972249194}
   _fpsCounterTextBar: {fileID: 1955115961}
 --- !u!1 &210337259
 GameObject:
@@ -1155,7 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4865393f67b504b62b5142d59459e0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrackerStatusUpdater
-  _listener: {fileID: 1972249192}
+  _listener: {fileID: 1972249194}
   _statusTextBar: {fileID: 1211363939}
 --- !u!1 &1211363937
 GameObject:
@@ -1978,7 +1978,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1972249193}
-  - component: {fileID: 1972249192}
+  - component: {fileID: 1972249194}
   m_Layer: 0
   m_Name: Listener
   m_TagString: Untagged
@@ -1986,18 +1986,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1972249192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1972249191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8019f609b54f45e49beaf7b859d76a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TrackingServerListenerWrapper
 --- !u!4 &1972249193
 Transform:
   m_ObjectHideFlags: 0
@@ -2013,6 +2001,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1972249194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972249191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1487fb6a895c44029be972c19f09da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArkitBlendshapesListener
 --- !u!1 &2086035166
 GameObject:
   m_ObjectHideFlags: 0
@@ -2090,7 +2090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8390fa3c2032416cb9283c1abe40e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LogicComponent
-  _wrapper: {fileID: 1972249192}
+  _wrapper: {fileID: 1972249194}
   _modelSelector: {fileID: 2086035167}
 --- !u!4 &2122183539
 Transform:
@@ -2107,37 +2107,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &543450652086983446
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147546653100}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7072302, z: 0.7069834, w: 0}
-  m_LocalPosition: {x: 0, y: -0.0192, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -89.98, y: 180, z: 0}
---- !u!1 &919132147546653100
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 543450652086983446}
-  m_Layer: 0
-  m_Name: arkit_blendshapes
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2149,4 +2118,3 @@ SceneRoots:
   - {fileID: 2122183539}
   - {fileID: 477957535}
   - {fileID: 1642028002}
-  - {fileID: 543450652086983446}

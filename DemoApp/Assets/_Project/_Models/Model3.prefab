@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4092038650701641520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2c304a0900fe41deb1126bf8bb283fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 159480379ad53460eb410c0b6281431d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnityBlendshapeAnimatable
   _meshRenderer: {fileID: 3711027688353452184}

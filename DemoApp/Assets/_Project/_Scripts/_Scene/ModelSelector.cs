@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Virtava.Adapters.Unity;
 
 public class ModelSelector : MonoBehaviour
 {

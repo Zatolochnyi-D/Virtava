@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 // Create UI before viewport with available cameras dropdown, camera preview and proceed button.
 // On proceed app should start tracker worker. Pass selected camera to it as an argument.
@@ -13,8 +12,7 @@ using UnityEngine.UI;
 public class CameraSelectionScreenController : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown _dropdown;
-    [SerializeField] private RawImage _cameraOutput;
-    private RectTransform _cameraOutputTransform;
+    [SerializeField] private CameraPreviewController _cameraPreview;
 
     private IEnumerable<string> _availableCameras;
     private List<WebCamTexture> _cameras;
@@ -22,11 +20,10 @@ public class CameraSelectionScreenController : MonoBehaviour
 
     void Awake()
     {
-        _cameraOutputTransform = _cameraOutput.rectTransform;
-
         _availableCameras = WebCamTexture.devices.Select(x => x.name);
         _cameras = _availableCameras.Select(x => new WebCamTexture(x)).ToList();
         _selectedIndex = 0;
+        _cameraPreview.Hide();
         PrepareSelection();
 
         _dropdown.ClearOptions();
@@ -45,9 +42,9 @@ public class CameraSelectionScreenController : MonoBehaviour
         _cameras.ForEach(x => x.Play());
         while (_cameras.Any(x => !x.didUpdateThisFrame))
             await Awaitable.NextFrameAsync();
-        Debug.Log("Cameras initialized.");
         _cameras.ForEach(x => x.Pause());
         _dropdown.interactable = true;
+        _cameraPreview.Show();
         StartCamera();
     }
 
@@ -60,8 +57,8 @@ public class CameraSelectionScreenController : MonoBehaviour
     private void StartCamera()
     {
         _cameras.ForEach(x => x.Pause());
-        _cameraOutputTransform.sizeDelta = new(_cameras[_selectedIndex].width, _cameras[_selectedIndex].height);
-        _cameraOutput.texture = _cameras[_selectedIndex];
+        _cameraPreview.SetAspectRatio((float)_cameras[_selectedIndex].width / _cameras[_selectedIndex].height);
+        _cameraPreview.SetTexture(_cameras[_selectedIndex]);
         _cameras[_selectedIndex].Play();
     }
 }

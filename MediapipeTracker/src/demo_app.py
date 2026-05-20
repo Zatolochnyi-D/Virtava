@@ -63,12 +63,12 @@ while camera.isOpened():
     mp_image = Image(image_format = ImageFormat.SRGB, data = image)
     detection_result = detector.detect(mp_image)
 
-    if len(detection_result.face_blendshapes) != 0:
-        print(len(detection_result.face_blendshapes[0]))
-        for category in detection_result.face_blendshapes[0]:
-            print(category)
-            print(category.category_name)
-            print(category.score)
+    # if len(detection_result.face_blendshapes) != 0:
+    #     print(len(detection_result.face_blendshapes[0]))
+    #     for category in detection_result.face_blendshapes[0]:
+    #         print(category)
+    #         print(category.category_name)
+    #         print(category.score)
 
     cv2.imshow("Window", draw_landmarks_on_image(mp_image.numpy_view(), detection_result))
 

@@ -9,6 +9,8 @@ using UnityEngine;
 // Add clargs read to tracker program. Add --camera parameter or something to read and use in camera retrieval.
 // It is important to build strong foundation from the beggining for this clargs system, cause I will use it later to pass the ports and other stuff.
 
+// Handle case when there are no cameras at all.
+
 public class CameraSelectionScreenController : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown _dropdown;

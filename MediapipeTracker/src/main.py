@@ -5,7 +5,7 @@ from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
 from mediapipe import Image, ImageFormat
-from tracking_results_pb2 import TrackingResult
+from arkit_blendshapes_pb2 import ArkitBlendshapesResult
 from virtava_server import TrackerServer
 
 port = 14210
@@ -47,7 +47,7 @@ def start_tracking():
             break
         mp_image = Image(image_format = ImageFormat.SRGB, data = image)
         detection_result = detector.detect(mp_image)
-        result = TrackingResult()
+        result = ArkitBlendshapesResult()
         detected_faces_count = len(detection_result.face_landmarks)
         if detected_faces_count:
             print("  Send success")

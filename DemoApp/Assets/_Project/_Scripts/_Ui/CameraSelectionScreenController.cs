@@ -3,26 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-// Create UI before viewport with available cameras dropdown, camera preview and proceed button.
 // On proceed app should start tracker worker. Pass selected camera to it as an argument.
 // Add clargs read to tracker program. Add --camera parameter or something to read and use in camera retrieval.
 // It is important to build strong foundation from the beggining for this clargs system, cause I will use it later to pass the ports and other stuff.
 
-// Handle case when there are no cameras at all.
-
 public class CameraSelectionScreenController : MonoBehaviour
 {
+    public event Action<string> OnCameraSelected;
+
     [SerializeField] private TMP_Dropdown _dropdown;
     [SerializeField] private CameraPreviewController _cameraPreview;
+    [SerializeField] private Button _confirmButton;
+    [SerializeField] private NoCamerasScreenController _noCamerasScreenController;
+    [SerializeField] private GameObject _demoScreen;
 
-    private IEnumerable<string> _availableCameras;
+    private List<string> _availableCameras;
     private List<WebCamTexture> _cameras;
     private int _selectedIndex;
 
     void Awake()
     {
-        _availableCameras = WebCamTexture.devices.Select(x => x.name);
+        _demoScreen.SetActive(false);
+        _availableCameras = WebCamTexture.devices.Select(x => x.name).ToList();
+        if (!_availableCameras.Any())
+        {
+            _noCamerasScreenController.Activate();
+            return;
+        }
         _cameras = _availableCameras.Select(x => new WebCamTexture(x)).ToList();
         _selectedIndex = 0;
         _cameraPreview.Hide();
@@ -32,6 +41,15 @@ public class CameraSelectionScreenController : MonoBehaviour
         _dropdown.AddOptions(_availableCameras.ToList());
         _dropdown.onValueChanged.AddListener(HandleDropboxSelection);
         _dropdown.interactable = false;
+
+        _confirmButton.onClick.AddListener(() =>
+        {
+            _cameras.ForEach(x => x.Stop());
+            _cameras.Clear();
+            gameObject.SetActive(false);
+            _demoScreen.SetActive(true);
+            OnCameraSelected?.Invoke(_availableCameras[_selectedIndex]);
+        });
     }
 
     void OnDestroy()
@@ -62,14 +80,5 @@ public class CameraSelectionScreenController : MonoBehaviour
         _cameraPreview.SetAspectRatio((float)_cameras[_selectedIndex].width / _cameras[_selectedIndex].height);
         _cameraPreview.SetTexture(_cameras[_selectedIndex]);
         _cameras[_selectedIndex].Play();
-    }
-}
-
-public static class LinqExtension
-{
-    public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
-    {
-        foreach (var el in collection)
-            action.Invoke(el);
     }
 }

@@ -51,16 +51,16 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
             "ASgCEhgKEG1vdXRoU3RyZXRjaExlZnQYLiABKAISGQoRbW91dGhTdHJldGNo",
             "UmlnaHQYLyABKAISGAoQbW91dGhVcHBlclVwTGVmdBgwIAEoAhIZChFtb3V0",
             "aFVwcGVyVXBSaWdodBgxIAEoAhIVCg1ub3NlU25lZXJMZWZ0GDIgASgCEhYK",
-            "Dm5vc2VTbmVlclJpZ2h0GDMgASgCEhEKCXRvbmd1ZU91dBg0IAEoAiJVChZB",
+            "Dm5vc2VTbmVlclJpZ2h0GDMgASgCEhEKCXRvbmd1ZU91dBg0IAEoAiJoChZB",
             "cmtpdEJsZW5kc2hhcGVzUmVzdWx0EhgKEHRyYWNraW5nU3VjY2VkZWQYASAB",
-            "KAgSIQoLYmxlbmRzaGFwZXMYAiABKAsyDC5CbGVuZHNoYXBlc0ItqgIqVmly",
-            "dGF2YS5EYXRhRm9ybWF0TW9kdWxlcy5BcmtpdEJsZW5kc2hhcGVzYgZwcm90",
-            "bzM="));
+            "KAgSEQoJdGltZXN0YW1wGAIgASgEEiEKC2JsZW5kc2hhcGVzGAMgASgLMgwu",
+            "QmxlbmRzaGFwZXNCLaoCKlZpcnRhdmEuRGF0YUZvcm1hdE1vZHVsZXMuQXJr",
+            "aXRCbGVuZHNoYXBlc2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Virtava.DataFormatModules.ArkitBlendshapes.Blendshapes), global::Virtava.DataFormatModules.ArkitBlendshapes.Blendshapes.Parser, new[]{ "BrowDownLeft", "BrowDownRight", "BrowInnerUp", "BrowOuterUpLeft", "BrowOuterUpRight", "CheekPuff", "CheekSquintLeft", "CheekSquintRight", "EyeBlinkLeft", "EyeBlinkRight", "EyeLookDownLeft", "EyeLookDownRight", "EyeLookInLeft", "EyeLookInRight", "EyeLookOutLeft", "EyeLookOutRight", "EyeLookUpLeft", "EyeLookUpRight", "EyeSquintLeft", "EyeSquintRight", "EyeWideLeft", "EyeWideRight", "JawForward", "JawLeft", "JawOpen", "JawRight", "MouthClose", "MouthDimpleLeft", "MouthDimpleRight", "MouthFrownLeft", "MouthFrownRight", "MouthFunnel", "MouthLeft", "MouthLowerDownLeft", "MouthLowerDownRight", "MouthPressLeft", "MouthPressRight", "MouthPucker", "MouthRight", "MouthRollLower", "MouthRollUpper", "MouthShrugLower", "MouthShrugUpper", "MouthSmileLeft", "MouthSmileRight", "MouthStretchLeft", "MouthStretchRight", "MouthUpperUpLeft", "MouthUpperUpRight", "NoseSneerLeft", "NoseSneerRight", "TongueOut" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Virtava.DataFormatModules.ArkitBlendshapes.ArkitBlendshapesResult), global::Virtava.DataFormatModules.ArkitBlendshapes.ArkitBlendshapesResult.Parser, new[]{ "TrackingSucceded", "Blendshapes" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Virtava.DataFormatModules.ArkitBlendshapes.ArkitBlendshapesResult), global::Virtava.DataFormatModules.ArkitBlendshapes.ArkitBlendshapesResult.Parser, new[]{ "TrackingSucceded", "Timestamp", "Blendshapes" }, null, null, null, null)
           }));
     }
     #endregion
@@ -2188,6 +2188,7 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ArkitBlendshapesResult(ArkitBlendshapesResult other) : this() {
       trackingSucceded_ = other.trackingSucceded_;
+      timestamp_ = other.timestamp_;
       blendshapes_ = other.blendshapes_ != null ? other.blendshapes_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -2210,8 +2211,20 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
       }
     }
 
+    /// <summary>Field number for the "timestamp" field.</summary>
+    public const int TimestampFieldNumber = 2;
+    private ulong timestamp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong Timestamp {
+      get { return timestamp_; }
+      set {
+        timestamp_ = value;
+      }
+    }
+
     /// <summary>Field number for the "blendshapes" field.</summary>
-    public const int BlendshapesFieldNumber = 2;
+    public const int BlendshapesFieldNumber = 3;
     private global::Virtava.DataFormatModules.ArkitBlendshapes.Blendshapes blendshapes_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2238,6 +2251,7 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
         return true;
       }
       if (TrackingSucceded != other.TrackingSucceded) return false;
+      if (Timestamp != other.Timestamp) return false;
       if (!object.Equals(Blendshapes, other.Blendshapes)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -2247,6 +2261,7 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
     public override int GetHashCode() {
       int hash = 1;
       if (TrackingSucceded != false) hash ^= TrackingSucceded.GetHashCode();
+      if (Timestamp != 0UL) hash ^= Timestamp.GetHashCode();
       if (blendshapes_ != null) hash ^= Blendshapes.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -2270,8 +2285,12 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
         output.WriteRawTag(8);
         output.WriteBool(TrackingSucceded);
       }
+      if (Timestamp != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(Timestamp);
+      }
       if (blendshapes_ != null) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteMessage(Blendshapes);
       }
       if (_unknownFields != null) {
@@ -2288,8 +2307,12 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
         output.WriteRawTag(8);
         output.WriteBool(TrackingSucceded);
       }
+      if (Timestamp != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(Timestamp);
+      }
       if (blendshapes_ != null) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteMessage(Blendshapes);
       }
       if (_unknownFields != null) {
@@ -2304,6 +2327,9 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
       int size = 0;
       if (TrackingSucceded != false) {
         size += 1 + 1;
+      }
+      if (Timestamp != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Timestamp);
       }
       if (blendshapes_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Blendshapes);
@@ -2322,6 +2348,9 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
       }
       if (other.TrackingSucceded != false) {
         TrackingSucceded = other.TrackingSucceded;
+      }
+      if (other.Timestamp != 0UL) {
+        Timestamp = other.Timestamp;
       }
       if (other.blendshapes_ != null) {
         if (blendshapes_ == null) {
@@ -2352,7 +2381,11 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
             TrackingSucceded = input.ReadBool();
             break;
           }
-          case 18: {
+          case 16: {
+            Timestamp = input.ReadUInt64();
+            break;
+          }
+          case 26: {
             if (blendshapes_ == null) {
               Blendshapes = new global::Virtava.DataFormatModules.ArkitBlendshapes.Blendshapes();
             }
@@ -2382,7 +2415,11 @@ namespace Virtava.DataFormatModules.ArkitBlendshapes {
             TrackingSucceded = input.ReadBool();
             break;
           }
-          case 18: {
+          case 16: {
+            Timestamp = input.ReadUInt64();
+            break;
+          }
+          case 26: {
             if (blendshapes_ == null) {
               Blendshapes = new global::Virtava.DataFormatModules.ArkitBlendshapes.Blendshapes();
             }

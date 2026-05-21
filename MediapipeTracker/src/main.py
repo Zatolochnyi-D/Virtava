@@ -1,6 +1,7 @@
 import cv2
 from signal import signal, SIGTERM, SIGINT
 from threading import Event
+from time import time_ns
 from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
@@ -59,6 +60,7 @@ def start_tracking():
         else:
             result.trackingSucceded = False
             print("  Send failure")
+        result.timestamp = time_ns()
 
         if not tracking_event.is_set():
             tracker_server.send(result)

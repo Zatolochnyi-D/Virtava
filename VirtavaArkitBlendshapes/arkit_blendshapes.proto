@@ -59,5 +59,6 @@ message Blendshapes {
 
 message ArkitBlendshapesResult {
     bool trackingSucceded = 1;
-    Blendshapes blendshapes = 2;
+    uint64 timestamp = 2;
+    Blendshapes blendshapes = 3;
 }

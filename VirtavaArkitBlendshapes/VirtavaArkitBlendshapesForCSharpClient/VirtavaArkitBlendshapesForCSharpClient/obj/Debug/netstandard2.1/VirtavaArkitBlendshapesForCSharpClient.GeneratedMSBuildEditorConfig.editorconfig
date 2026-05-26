@@ -1,6 +1,6 @@
 is_global = true
 build_property.RootNamespace = VirtavaArkitBlendshapesForCSharpClient
-build_property.ProjectDir = /Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtaveArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/
+build_property.ProjectDir = /Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false

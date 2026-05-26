@@ -1,7 +1,12 @@
+import argparse
 import cv2
+import sys
+from pathlib import Path
+from typing import Union
 from signal import signal, SIGTERM, SIGINT
 from threading import Event
 from time import time_ns
+from cv2_enumerate_cameras import enumerate_cameras
 from mediapipe.tasks.python.core.base_options import BaseOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerOptions
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarker
@@ -9,8 +14,29 @@ from mediapipe import Image, ImageFormat
 from arkit_blendshapes_pb2 import ArkitBlendshapesResult
 from virtava_server import TrackerServer
 
+MAX_RETRIES = 30
 port = 14210
-model_asset_path = "face_landmarker.task"
+heartbeat_port = port + 1
+camera_name: Union[str, None] = None
+path_to_resources = ''
+if getattr(sys, 'frozen', False):
+    path_to_resources = Path(sys._MEIPASS)
+else:
+    path_to_resources = Path(__file__).parent.parent
+model_asset_path = path_to_resources / 'face_landmarker.task'
+
+argparser = argparse.ArgumentParser()
+argparser.add_argument('-p', '--port', help = 'Set port used for communication. Default is 14210.', )
+argparser.add_argument('-b', '--heartbeat', help = 'Set port used for heartbeat. Default is port + 1.')
+argparser.add_argument('-c', '--camera-name', help = 'Camera name to use for tracking. By default whatever camera will be retrieved first is used.')
+args = argparser.parse_args()
+
+if args.port:
+    port = args.port
+if args.heartbeat:
+    heartbeat_port = args.heartbeat
+if args.camera_name:
+    camera_name = args.camera_name
 
 base_options = BaseOptions(model_asset_path = model_asset_path)
 options = FaceLandmarkerOptions(
@@ -20,8 +46,6 @@ options = FaceLandmarkerOptions(
     num_faces = 1,
 )
 detector = FaceLandmarker.create_from_options(options)
-
-print("Tracker created")
 
 tracking_event = Event()
 stop_event = Event()
@@ -33,25 +57,36 @@ def stop():
 signal(SIGINT, lambda x, y: stop())
 signal(SIGTERM, lambda x, y: stop())
 
+def get_camera(camera_name: Union[str, None]) -> cv2.VideoCapture:
+    if (camera_name is None):
+        return cv2.VideoCapture(0)
+    else:
+        for camera in enumerate_cameras():
+            if (camera.name == camera_name):
+                return cv2.VideoCapture(camera.index, camera.backend)
 
 def start_tracking():
     global tracking_event
-    print('tracking loop started.')
     tracking_event = Event()
-    camera = cv2.VideoCapture(0)  # TODO: move camera index injection up. User may have several cameras so it should be configurable which one to use.
-                                  # TODO: it is not guaranteed for camera to be found. Handle possible error.
+    camera = get_camera(camera_name)
+    if (not camera.isOpened()):
+        print('No camera with provided index was found.')
+        exit(-1)
 
+    did_retries = 0
     while camera.isOpened() and not tracking_event.is_set():
-        success, image = camera.read()  # TODO: look up what can be cause of unsuccessful read and handle those cases. Just break with fail message is not enough.
+        success, image = camera.read()
         if not success:
-            print("Image read unsuccessful")
+            did_retries += 1
+        if did_retries == MAX_RETRIES:
+            print('Camera stopped producing frames.')
             break
+        did_retries = 0
         mp_image = Image(image_format = ImageFormat.SRGB, data = image)
         detection_result = detector.detect(mp_image)
         result = ArkitBlendshapesResult()
         detected_faces_count = len(detection_result.face_landmarks)
         if detected_faces_count:
-            print("  Send success")
             result.trackingSucceded = True
             for category in detection_result.face_blendshapes[0]:
                 if category.category_name == "_neutral":
@@ -59,25 +94,20 @@ def start_tracking():
                 setattr(result.blendshapes, category.category_name, category.score)
         else:
             result.trackingSucceded = False
-            print("  Send failure")
         result.timestamp = time_ns()
 
         if not tracking_event.is_set():
             tracker_server.send(result)
 
     camera.release()
-    print('tracking loop stopped.')
 
 def stop_tracking():
     global tracking_event
-    print('stop requested.')
     tracking_event.set()
 
-tracker_server = TrackerServer(port, port + 1)
+tracker_server = TrackerServer(port, heartbeat_port)
 tracker_server.first_listener_connected.subscribe(start_tracking)
 tracker_server.no_listeners_left.subscribe(stop_tracking)
 
 stop_event.wait()
 tracker_server.stop()
-
-print("End of program")

@@ -624,11 +624,11 @@
   "project": {
     "version": "0.0.1",
     "restore": {
-      "projectUniqueName": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtaveArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient.csproj",
+      "projectUniqueName": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient.csproj",
       "projectName": "VirtavaArkitBlendshapesForCSharpClient",
-      "projectPath": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtaveArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient.csproj",
+      "projectPath": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient.csproj",
       "packagesPath": "/Users/denys/.nuget/packages/",
-      "outputPath": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtaveArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/obj/",
+      "outputPath": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/denys/.nuget/NuGet/NuGet.Config"

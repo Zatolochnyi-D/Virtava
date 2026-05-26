@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "P93hQkdsLD4=",
+  "dgSpecHash": "w7/PhiHz3ug=",
   "success": true,
-  "projectFilePath": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtaveArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient.csproj",
+  "projectFilePath": "/Users/denys/Desktop/Diploma/Project/VirtavaArkitBlendshapes/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient/VirtavaArkitBlendshapesForCSharpClient.csproj",
   "expectedPackageFiles": [
     "/Users/denys/.nuget/packages/asyncio/0.1.69/asyncio.0.1.69.nupkg.sha512",
     "/Users/denys/.nuget/packages/google.protobuf/3.34.1/google.protobuf.3.34.1.nupkg.sha512",

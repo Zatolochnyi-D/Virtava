@@ -1,6 +1,6 @@
-import argparse
 import cv2
 import sys
+from argparse import ArgumentParser
 from pathlib import Path
 from typing import Union
 from signal import signal, SIGTERM, SIGINT
@@ -25,7 +25,7 @@ else:
     path_to_resources = Path(__file__).parent.parent
 model_asset_path = path_to_resources / 'face_landmarker.task'
 
-argparser = argparse.ArgumentParser()
+argparser = ArgumentParser()
 argparser.add_argument('-p', '--port', help = 'Set port used for communication. Default is 14210.', )
 argparser.add_argument('-b', '--heartbeat', help = 'Set port used for heartbeat. Default is port + 1.')
 argparser.add_argument('-c', '--camera-name', help = 'Camera name to use for tracking. By default whatever camera will be retrieved first is used.')
@@ -80,6 +80,7 @@ def start_tracking():
             did_retries += 1
         if did_retries == MAX_RETRIES:
             print('Camera stopped producing frames.')
+            stop()
             break
         did_retries = 0
         mp_image = Image(image_format = ImageFormat.SRGB, data = image)
@@ -107,7 +108,7 @@ def stop_tracking():
 
 tracker_server = TrackerServer(port, heartbeat_port)
 tracker_server.first_listener_connected.subscribe(start_tracking)
-tracker_server.no_listeners_left.subscribe(stop_tracking)
+tracker_server.no_listeners_left.subscribe(stop)
 
 stop_event.wait()
 tracker_server.stop()

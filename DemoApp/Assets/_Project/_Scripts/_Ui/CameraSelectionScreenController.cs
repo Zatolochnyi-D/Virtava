@@ -5,10 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// On proceed app should start tracker worker. Pass selected camera to it as an argument.
-// Add clargs read to tracker program. Add --camera parameter or something to read and use in camera retrieval.
-// It is important to build strong foundation from the beggining for this clargs system, cause I will use it later to pass the ports and other stuff.
-
 public class CameraSelectionScreenController : MonoBehaviour
 {
     public event Action<string> OnCameraSelected;
@@ -45,7 +41,9 @@ public class CameraSelectionScreenController : MonoBehaviour
         _confirmButton.onClick.AddListener(() =>
         {
             _cameras.ForEach(x => x.Stop());
+            _cameras.ForEach(x => Destroy(x));
             _cameras.Clear();
+            _cameraPreview.SetTexture(null);
             gameObject.SetActive(false);
             _demoScreen.SetActive(true);
             OnCameraSelected?.Invoke(_availableCameras[_selectedIndex]);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using Google.Protobuf;
 using UnityEngine;
 using Virtava.Client;
@@ -12,7 +13,11 @@ namespace Virtava.Adapters.Unity
         public event Action OnConnectionLost;
         public event Action<T> OnResultReceived;
 
+        [SerializeField] private int _port;
+        [SerializeField] private int _heartbeatPort;
+
         private TrackingServerListener<T> _tracker;
+        private bool _isInitialized = false;
         private ConcurrentQueue<T> _results;
         private bool _hadConnectionEstablishedOnThisFrame = false;
         private bool _hadConnectionLostOnThisFrame = false;
@@ -20,11 +25,7 @@ namespace Virtava.Adapters.Unity
 
         void Awake()
         {
-            _tracker = new(14210, 14211);
-            _results = new();
-            _tracker.OnConnectionEstablished += HandleOnConnectionEstablished;
-            _tracker.OnConnectionLost += HandleOnConnectionLost;
-            _tracker.OnResultReceived += HandleOnResultsReceived;
+            StartAfterDelay();
         }
 
         void OnApplicationFocus(bool focus)
@@ -37,6 +38,8 @@ namespace Virtava.Adapters.Unity
 
         void Update()
         {
+            if (!_isInitialized)
+                return;
             if (_results.TryDequeue(out var result))
                 OnResultReceived?.Invoke(result);
             if (_hadConnectionEstablishedOnThisFrame)
@@ -54,6 +57,17 @@ namespace Virtava.Adapters.Unity
         void OnDestroy()
         {
             _tracker.Dispose();
+        }
+
+        private async void StartAfterDelay()
+        {
+            await Task.Delay(500);
+            _tracker = new(_port, _heartbeatPort);
+            _results = new();
+            _tracker.OnConnectionEstablished += HandleOnConnectionEstablished;
+            _tracker.OnConnectionLost += HandleOnConnectionLost;
+            _tracker.OnResultReceived += HandleOnResultsReceived;
+            _isInitialized = true;
         }
 
         private void HandleOnConnectionEstablished()

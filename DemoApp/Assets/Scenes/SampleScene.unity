@@ -4439,6 +4439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1487fb6a895c44029be972c19f09da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArkitBlendshapesListener
+  _port: 14210
+  _heartbeatPort: 14211
 --- !u!1 &2025521210
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,12 +6,13 @@ using UnityEngine;
 public class ProcessManager : MonoBehaviour
 {
     private const float TIME_BEFORE_RESTARTING = 0.5f;
-    private const string TRACKER_APP_NAME = "mediapipe-tracking-server";
 
 #if UNITY_STANDALONE_OSX
     private const string TRACKER_APP_LOCATION = "mediapipe-tracking-server-macos";
+    private const string TRACKER_APP_NAME = "mediapipe-tracking-server";
 #elif UNITY_STANDALONE_WIN
     private const string TRACKER_APP_LOCATION = "mediapipe-tracking-server-windows";
+    private const string TRACKER_APP_NAME = "mediapipe-tracking-server.exe";
 #endif
 
     [SerializeField] private int _port;

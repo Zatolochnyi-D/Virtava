@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Google.Protobuf;
+using NetMQ;
 using UnityEngine;
 using Virtava.Client;
 
@@ -25,6 +26,7 @@ namespace Virtava.Adapters.Unity
 
         void Awake()
         {
+            AsyncIO.ForceDotNet.Force();
             StartAfterDelay();
         }
 

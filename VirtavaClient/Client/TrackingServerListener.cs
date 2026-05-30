@@ -11,6 +11,7 @@ namespace Virtava.Client
     public class TrackingServerListener<T> : IDisposable where T : IMessage<T>, new()
     {
         private static readonly TimeSpan GRACE_PERIOD = TimeSpan.FromSeconds(0.5);
+        private const string LOCALHOST_ADDRESS = "127.0.0.1";
 
         /// <summary> Event is fired on a background thread. </summary>
         public event Action<T>? OnResultReceived;
@@ -44,12 +45,12 @@ namespace Virtava.Client
             _ping = new Ping { Id = -1, IsLast = false };
             _listenerId = _ping.Id;
 
-            _broadcastSocket = new SubscriberSocket($"tcp://localhost:{broadcastPort}");
+            _broadcastSocket = new SubscriberSocket($"tcp://{LOCALHOST_ADDRESS}:{broadcastPort}");
             _broadcastSocket.SubscribeToAnyTopic();
             // _broadcastSocket.Options.ReceiveHighWatermark = 1;
             _broadcastSocket.ReceiveReady += (sender, args) => ReceiveBroadcast();
 
-            _heartbeatAddress = $"tcp://localhost:{heartbeatPort}";
+            _heartbeatAddress = $"tcp://{LOCALHOST_ADDRESS}:{heartbeatPort}";
             _heartbeatSocket = new RequestSocket(_heartbeatAddress);
             // _heartbeatSocket.Options.Linger = TimeSpan.Zero;
             _heartbeatSocket.ReceiveReady += (sender, args) => ReceivePing();

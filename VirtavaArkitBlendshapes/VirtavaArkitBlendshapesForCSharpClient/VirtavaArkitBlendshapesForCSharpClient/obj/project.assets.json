@@ -601,7 +601,7 @@
       ]
     },
     "VirtavaClient/0.0.1": {
-      "sha512": "AMcfhmJ+Ix8u9Vp69hog/AaF2kb8WJyCX7IAdOdxNG26KWjgp/OZsOkBIRGOxL9hq7/DimQObonKio/yelDIPg==",
+      "sha512": "jQBM8WRLer1cqJvTJauf+0QA3YxlD5MGqeX2O88C8ZdPnhjepbYhNNRheD9gF/RVvF2DMX1e177ca2aBBppoDg==",
       "type": "package",
       "path": "virtavaclient/0.0.1",
       "files": [

@@ -11,7 +11,7 @@ public class ProcessManager : MonoBehaviour
     private const string TRACKER_APP_LOCATION = "mediapipe-tracking-server-macos";
     private const string TRACKER_APP_NAME = "mediapipe-tracking-server";
 #elif UNITY_STANDALONE_WIN
-    private const string TRACKER_APP_LOCATION = "mediapipe-tracking-server-windows";
+    private const string TRACKER_APP_LOCATION = "mediapipe-tracking-server-win-x64";
     private const string TRACKER_APP_NAME = "mediapipe-tracking-server.exe";
 #endif
 

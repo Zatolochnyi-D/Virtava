@@ -47,12 +47,10 @@ namespace Virtava.Client
 
             _broadcastSocket = new SubscriberSocket($"tcp://{LOCALHOST_ADDRESS}:{broadcastPort}");
             _broadcastSocket.SubscribeToAnyTopic();
-            // _broadcastSocket.Options.ReceiveHighWatermark = 1;
             _broadcastSocket.ReceiveReady += (sender, args) => ReceiveBroadcast();
 
             _heartbeatAddress = $"tcp://{LOCALHOST_ADDRESS}:{heartbeatPort}";
             _heartbeatSocket = new RequestSocket(_heartbeatAddress);
-            // _heartbeatSocket.Options.Linger = TimeSpan.Zero;
             _heartbeatSocket.ReceiveReady += (sender, args) => ReceivePing();
 
             _messageParser = new MessageParser<T>(() => new T());
@@ -126,7 +124,6 @@ namespace Virtava.Client
                 _timeoutTimer.Enable = false;
                 _poller.RemoveAndDispose(_heartbeatSocket);
                 _heartbeatSocket = new RequestSocket(_heartbeatAddress);
-                // _heartbeatSocket.Options.Linger = TimeSpan.Zero;
                 _heartbeatSocket.ReceiveReady += (sender, args) => ReceivePing();
                 _poller.Add(_heartbeatSocket);
                 _logger.LogWarning("Awaiting response ping from Tracking server timed out.");
